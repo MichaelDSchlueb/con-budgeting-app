@@ -7,7 +7,6 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthProvider } from "react-oidc-context";
 
-console.log("Test Var:", import.meta.env.VITE_TEST_VAR);
 
 // main.jsx
 const cognitoAuthConfig = {
