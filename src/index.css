@@ -1,0 +1,114 @@
+/* src/App.css */
+.dashboard-root {
+  padding: 20px;
+  background-color: #F2F2F2; /* Dark GitHub-style grey */
+  color: #2F2F2F;
+  min-height: 30vh;
+}
+
+.gauge-track {
+  width: 100%;
+  max-width: 500px;
+  height: 25px;
+  background-color: #161b22;
+  border-radius: 12px;
+  border: 2px solid #30363d;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.purchases-list-content {
+  background-image: linear-gradient(to bottom, #A8E6CF, #FFB7C5, #A8E6CF)
+}
+.gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #A8E6CF, #2ECC71);
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+nav ul{
+  display: flex;
+  justify-content: flex-end;
+}
+
+#purchase-by-category {
+  font-size: 14px;
+  color: #2F2F2F;
+  margin-right: 5px;
+}
+
+.purchases-block {
+  background-color: #A8E6CF;
+  border-radius: 8px;
+  border: solid black 1px;
+}
+
+nav ul li {
+  list-style: none;
+  border-left: 1px solid #1A2A40;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  color: #1A2A40;
+}
+
+.donut-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3)); /* Subtle "Mirai" glow */
+}
+
+/* Make sure the text looks clean on high-res iPhone screens */
+text {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+}
+
+#add-button {
+  background-color: #A8E6CF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#group-by-category {
+  background-color: #FFB7C5;
+  color: #2F2F2F;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#purchase-by-category {
+  background-color: #A8E6CF;
+  color: #2F2F2F;
+  border: solid 1px #2F2F2F;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#goals {
+  background-color: #A8E6CF;
+  color: #2F2F2F;
+  border: solid 1px #2F2F2F;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#history {
+  background-color: #A8E6CF;
+  color: #2F2F2F;
+  border: solid 1px #2F2F2F;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
