@@ -150,14 +150,14 @@ function Dashboard ({auth, SignOut}) {
     timestamp: new Date().toISOString()
   };*/
   
-  /*// 3. Save back to local storage
+  // 3. Save back to local storage
   localStorage.setItem('congreen_queue', JSON.stringify([...existingQueue, newEntry]));
   console.log("Receipt queued for sync!");
 };
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
     return purchases.reduce((total, item) => total + (parseFloat(item.price) || 0), 0);
-  }, [purchases]);*/
+  }, [purchases]);
 
   const percentUsed = (currentSpend / totalBudget) * 100;
 
