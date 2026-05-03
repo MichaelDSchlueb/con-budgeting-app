@@ -22,7 +22,7 @@ Amplify.configure({
     Cognito: {
       userPoolId: 'us-east-2_5KrMfc4NY',
       userPoolClientId: '5d32h4mt57n9ljti8d8fhkcflt',
-      identityPoolId: 'us-east-2:xxxx-xxxx-xxxx', // Use your actual ID here
+      identityPoolId: 'us-east-2:48d768bb-fd93-4a3c-b24f-1c3af24ee454', // Use your actual ID here
     }
   }
 });
