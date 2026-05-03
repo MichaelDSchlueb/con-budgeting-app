@@ -31,7 +31,14 @@ function LandingPage() {
   }
 
   if (auth.isAuthenticated && auth.user) {
-    return <Dashboard auth={auth} signOut={signOutRedirect} />;
+    console.log("Full Auth Object:", auth);
+  // Bypass the Dashboard component temporarily to see if the screen stays white
+  return (
+    <div>
+      <h1>Bypass Mode</h1>
+      <p>If you see this, the issue is inside the Dashboard component.</p>
+    </div>
+  );
   }
 
   return (
@@ -51,7 +58,7 @@ function Dashboard ({auth, SignOut}) {
   const [groupBy, setGroupBy] = useState('category'); // New state for grouping
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [pendingCount, setPendingCount] = useState(0);
-  const user = auth.user;
+  const user = auth?.user;
   const signOut = SignOut;
 
   console.log("Dashboard rendered with user:", user);
