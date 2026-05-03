@@ -15,7 +15,7 @@ function LandingPage() {
   const signOutRedirect = () => {
     const clientId = "5d32h4mt57n9ljti8d8fhkcflt";
     const logoutUri = "https://main.d12345.amplifyapp.com/";
-    const cognitoDomain = "https://us-east-25krmfc4ny.auth.us-east-2.amazoncognito.com";
+    const cognitoDomain = "http://localhost:5173/dashboard";
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
@@ -303,7 +303,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />

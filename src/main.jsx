@@ -16,6 +16,16 @@ const cognitoAuthConfig = {
   scope: "email openid phone",
 };
 
+// Example login call
+try {
+    const user = await Auth.signIn(username, password);
+    // ... logic
+} catch (error) {
+    console.log("FULL ERROR OBJECT:", error);
+    console.log("ERROR CODE:", error.code);
+    console.log("ERROR MESSAGE:", error.message);
+}
+
 
 // Use it in your render
 
