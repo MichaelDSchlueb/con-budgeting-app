@@ -1,0 +1,7 @@
+"oauth": {
+  "domain": "your-cognito-domain.auth.us-east-2.amazoncognito.com",
+  "scope": ["phone", "email", "openid", "profile", "aws.cognito.signin.user.admin"],
+  "redirectSignIn": "https://main.dymkwrcw8goz2.amplifyapp.com/dashboard",
+  "redirectSignOut": "https://main.dymkwrcw8goz2.amplifyapp.com/",
+  "responseType": "code"
+}

@@ -7,15 +7,18 @@ import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { useAuth } from "react-oidc-context";
+import { useAuth as useOIDCAuth } from "react-oidc-context";
+import { saveToOfflineQueue, getPendingReceipts, removeFromQueue } from './assets/utils/db';
+import {useAuthenticator as useAmplifyAuth} from '@aws-amplify/ui-react';
 
 function LandingPage() {
-  const auth = useAuth();
+  const auth = useOIDCAuth();
+  console.log("Auth state in LandingPage:", auth);
 
   const signOutRedirect = () => {
     const clientId = "5d32h4mt57n9ljti8d8fhkcflt";
     const logoutUri = "https://main.d12345.amplifyapp.com/";
-    const cognitoDomain = "http://localhost:5173/dashboard";
+    const cognitoDomain = "https://main.d12345.amplifyapp.com/";
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
@@ -28,7 +31,7 @@ function LandingPage() {
   }
 
   if (auth.isAuthenticated) {
-    return <Dashboard auth={auth} />;
+    return <Dashboard auth={auth} signOut={signOutRedirect} />;
   }
 
   return (
@@ -40,31 +43,114 @@ function LandingPage() {
   );
 }
 
-function Dashboard({SignOut, user}) {
+function Dashboard ({auth, SignOut}) {
   const [count, setCount] = useState(0)
   const [totalBudget, setTotalBudget] = useState(1250);
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupBy, setGroupBy] = useState('category'); // New state for grouping
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [pendingCount, setPendingCount] = useState(0);
+  const user = auth.user;
+  const signOut = SignOut;
 
-  // Ensure your Dashboard uses the auth data to fetch your purchases
-useEffect(() => {
-  if (auth.isAuthenticated) {
-    const token = auth.user?.access_token;
-    fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_id=MichaelS', {
-      headers: {
-        'Authorization': `Bearer ${token}` // This is what unlocks your real data
+  console.log("Dashboard rendered with user:", user);
+
+  const refreshPendingCount = async () => {
+    const pending = await getPendingReceipts();
+    setPendingCount(pending.length);
+  };
+/*
+  useEffect(() => {
+    refreshPendingCount();
+    window.addEventListener('online', refreshPendingCount);
+    return () => window.removeEventListener('online', refreshPendingCount);
+
+    const syncOutbox = async () => {
+  if (navigator.onLine) {
+    const pending = await getPendingReceipts(); // Now imported!
+    for (const receipt of pending) {
+      try {
+        // This is where it hits your S3 -> SQS -> Lambda pipeline
+        await uploadToS3(receipt.file); 
+        await removeFromQueue(receipt.id); // Cleanup local PII
+        console.log("Mission-Critical Sync: Receipt uploaded successfully.");
+      } catch (err) {
+        console.error("Sync failed for this item, keeping in outbox.", err);
       }
-    })
-    .then(res => res.json())
-    .then(data => setPurchases(JSON.parse(data.body)));
+    }
+    refreshPendingCount(); // Update your new UI badge
   }
-}, [auth.isAuthenticated]);
+};
+  }, []);
+*/
+  /*useEffect(() => {
+    const handleStatus = () => setIsOffline(!navigator.onLine);
+    window.addEventListener('online', handleStatus);
+    window.addEventListener('offline', handleStatus);
+    return () => {
+      window.removeEventListener('online', handleStatus);
+      window.removeEventListener('offline', handleStatus);
+    };
+  }, []); */
   
+  /*const handleReceiptSubmit = async (file) => {
+    console.log("File detected:", file); // If this is undefined, the input isn't working
+    if (!file) return;
+    const metadata = { 
+      user_id: 'Michael_S', 
+      category: 'General',
+      timestamp: new Date().toISOString() 
+    }; */
+
+    /*if (navigator.onLine) {
+      try {
+        // Your S3 upload logic here
+        await uploadToS3(file);
+      } catch (err) {
+        // If upload fails even while online, fallback to queue
+        await saveToOfflineQueue(file, metadata);
+      }
+    } else {
+      // Mission-Critical Offline Mode for MomoCon floor
+      await saveToOfflineQueue(file, metadata);
+      alert("Receipt saved locally! It will sync when you're back online.");
+    }
+  }; */
+  // Ensure your Dashboard uses the auth data to fetch your purchases
+/*useEffect(() => {
+  // Use 'user' from your useAuthenticator hook instead
+  if (user) {
+    // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
+    // but for a simple UI check, 'user' is enough to trigger the fetch
+    fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_id=MichaelS')
+      .then(res => res.json())
+      .then(data => setPurchases(JSON.parse(data.body)));
+  }
+}, [user]); // Trigger when the user logs in */
+  
+
+// Function to save a pending receipt locally
+/*const queueReceipt = (receiptData) => {
+  // 1. Get the existing queue or create a new one
+  const existingQueue = JSON.parse(localStorage.getItem('congreen_queue') || '[]');
+  
+  // 2. Add the new receipt with a 'pending' status
+  const newEntry = {
+    ...receiptData,
+    id: Date.now(),
+    status: 'pending',
+    timestamp: new Date().toISOString()
+  };*/
+  
+  /*// 3. Save back to local storage
+  localStorage.setItem('congreen_queue', JSON.stringify([...existingQueue, newEntry]));
+  console.log("Receipt queued for sync!");
+};
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
     return purchases.reduce((total, item) => total + (parseFloat(item.price) || 0), 0);
-  }, [purchases]);
+  }, [purchases]);*/
 
   const percentUsed = (currentSpend / totalBudget) * 100;
 
@@ -215,7 +301,8 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif'}}>
         <h1>ConGreen</h1>
         <h2>Good afternoon, Min!</h2>
-        <button onClick={() => signOutRedirect()}>Sign out</button>
+        <button onClick={signOut}>Sign out</button>
+        {/*}
         <h3>My Spending</h3>
         <div className="dashboard-root"style={{ padding: '23px', border: '1px solid #646cff', borderRadius: '8px', display: 'inline-block'}}>
           <nav>
@@ -254,7 +341,29 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               <Bar dataKey="total" fill="#A8E6CF" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
-            
+            <div className="upload-section">
+  <label className="upload-button">
+    {isOffline ? "📸 Save Receipt (Offline)" : "🚀 Upload Receipt"}
+    <input 
+      type="file" 
+      accept="image/*" 
+      capture="environment" // This opens the camera directly on mobile!
+      onChange={(e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleReceiptSubmit(e.target.files[0]);
+    }
+  }}
+      style={{ display: 'none' }} 
+    />
+  </label>
+  
+  
+  {pendingCount > 0 && (
+    <div className="sync-status">
+      {pendingCount} waiting to sync...
+    </div>
+  )}
+</div>
             </div>
             <div id="recommendations">
               <h2>Recommendations</h2>
@@ -269,19 +378,19 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         </div>
       <div id="purchases-goals" style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-around' }}>
         <div className="purchases-block">
-          {/* Button to toggle groupBy */}
+          
           <h2>My Purchases</h2>
           <div style={{ marginBottom: '10px', textAlign: 'right' }}>
             <button id="group-by-category" onClick={() => setGroupBy(prev => prev === 'category' ? 'date' : 'category')}>
               Switch Grouping (Current: {groupBy})
             </button>
           </div>
-          <div className="purchases-container" style={{ /* ... */ }}>
-  <div className="purchases-header" style={{ /* ... */ }}>
+          <div className="purchases-container" style={{  }}>
+  <div className="purchases-header" style={{ /* ...  }}>
     <h3>Purchases</h3>
   </div>
   
-  {/* Pass the variables explicitly as props */}
+  
   <PurchaseList 
     groupedData={groupedPurchases} 
     groupBy={groupBy} 
@@ -295,17 +404,26 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       </div> 
       <div id="history">
         <h2>My History</h2>
-      </div>
+      </div> */}
     </div>
     </>
   );
 }
 
 export default function App() {
+  const checkUser = async () => {
+  try {
+    const session = await fetchAuthSession();
+    if (!session.tokens) throw new Error("No session");
+  } catch (err) {
+    console.log("User not authenticated, redirecting to login...");
+  }
+}
   return (
     <BrowserRouter basename="/">
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        {console.log("Defining Routes...")}
+        { <Route path="/" element={<LandingPage />} /> }
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
