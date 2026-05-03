@@ -30,7 +30,7 @@ function LandingPage() {
     return <div>Encountering error... {auth.error.message}</div>;
   }
 
-  if (auth.isAuthenticated) {
+  if (auth.isAuthenticated && auth.user) {
     return <Dashboard auth={auth} signOut={signOutRedirect} />;
   }
 
@@ -295,6 +295,10 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 );
 
 //console.log("Chart Data:", chartData)
+
+if (!auth || !auth.user) {
+    return <div>Loading user profile...</div>;
+  }
 
   return (
     <>
