@@ -148,12 +148,12 @@ function Dashboard ({auth, SignOut}) {
     id: Date.now(),
     status: 'pending',
     timestamp: new Date().toISOString()
-  };*/
+  };
   
   // 3. Save back to local storage
   localStorage.setItem('congreen_queue', JSON.stringify([...existingQueue, newEntry]));
   console.log("Receipt queued for sync!");
-};
+}; */
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
     return purchases.reduce((total, item) => total + (parseFloat(item.price) || 0), 0);
