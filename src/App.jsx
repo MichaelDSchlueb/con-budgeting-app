@@ -30,7 +30,7 @@ function LandingPage() {
     return <div>Encountering error... {auth.error.message}</div>;
   }
 
-  if (auth.isAuthenticated && auth.user) {
+  if (auth.isAuthenticated) {
     console.log("Full Auth Object:", auth);
   // Bypass the Dashboard component temporarily to see if the screen stays white
   return (
