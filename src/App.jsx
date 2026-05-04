@@ -303,9 +303,16 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 
 //console.log("Chart Data:", chartData)
 
-if (!auth || !auth.user || Object.keys(auth.user).length === 0) {
-    console.log("Auth is still pending data...", auth);
-    return <div>Connecting to BluMirai Cloud...</div>;
+if (!auth || !auth.user) {
+    console.log("Current Auth State:", auth); // This will show us if isAuthenticated is true or false
+    return (
+        <div style={{textAlign: 'center', marginTop: '50px'}}>
+            <h2>Connecting to BluMirai Cloud...</h2>
+            <p>If this stays here, the login handshake didn't finish.</p>
+            {/* Temporary debug button to see if we can trigger a refresh */}
+            <button onClick={() => window.location.reload()}>Retry Handshake</button>
+        </div>
+    );
 }
 
   return (
