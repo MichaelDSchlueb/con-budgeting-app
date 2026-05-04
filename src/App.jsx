@@ -22,8 +22,6 @@ function LandingPage() {
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
-  
-
   if (auth.isLoading) {
     return <div>Loading...</div>;
   }
@@ -305,11 +303,10 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 
 //console.log("Chart Data:", chartData)
 
-if (!auth || !auth.user) {
-    // Check if you are doing this:
-    const user_id = auth?.user?.username || 'MichaelS';
-    return <div>Loading user profile...</div>;
-  }
+if (!auth || !auth.user || Object.keys(auth.user).length === 0) {
+    console.log("Auth is still pending data...", auth);
+    return <div>Connecting to BluMirai Cloud...</div>;
+}
 
   return (
     <>
