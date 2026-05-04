@@ -22,8 +22,7 @@ function LandingPage() {
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
-  // Check if you are doing this:
-  const user_id = auth?.user?.username || 'MichaelS';
+  
 
   if (auth.isLoading) {
     return <div>Loading...</div>;
@@ -307,6 +306,8 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 //console.log("Chart Data:", chartData)
 
 if (!auth || !auth.user) {
+    // Check if you are doing this:
+    const user_id = auth?.user?.username || 'MichaelS';
     return <div>Loading user profile...</div>;
   }
 
