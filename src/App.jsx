@@ -22,6 +22,9 @@ function LandingPage() {
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
+  // Check if you are doing this:
+  const user_id = auth?.user?.username || 'MichaelS';
+
   if (auth.isLoading) {
     return <div>Loading...</div>;
   }
