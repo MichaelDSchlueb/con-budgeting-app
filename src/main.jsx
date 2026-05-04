@@ -20,8 +20,8 @@ const cognitoAuthConfig = {
 const amplifyconfig = {
   "Auth": {
     "Cognito": {
-      "userPoolId": "us-east-2_940baSDal", 
-      "userPoolClientId": "4e78f6nhrd3tekcbl18nupjric",
+      "userPoolId": "us-east-2_5KrMfc4NY", 
+      "userPoolClientId": "5d32h4mt57n9ljti8d8fhkcflt",
       "loginWith": {
         "oauth": {
           "domain": "your-domain.auth.us-east-2.amazoncognito.com",
