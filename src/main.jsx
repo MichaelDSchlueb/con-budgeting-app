@@ -11,7 +11,7 @@ import { AuthProvider } from "react-oidc-context";
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_5KrMfc4NY",
   client_id: "5d32h4mt57n9ljti8d8fhkcflt",
-  redirect_uri: "https://main.dymkwrcw8goz2.amplifyapp.com/dashboard",
+  redirect_uri: "https://main.dymkwrcw8goz2.amplifyapp.com/",
   response_type: "code",
   scope: "email openid phone",
 };
@@ -24,7 +24,7 @@ const amplifyconfig = {
       "userPoolClientId": "5d32h4mt57n9ljti8d8fhkcflt",
       "loginWith": {
         "oauth": {
-          "domain": "your-domain.auth.us-east-2.amazoncognito.com",
+          "domain": "https://us-east-25krmfc4ny.auth.us-east-2.amazoncognito.com",
           "scopes": ["openid", "email", "profile", "aws.cognito.signin.user.admin"],
           "redirectSignIn": ["https://main.dymkwrcw8goz2.amplifyapp.com/dashboard"],
           "redirectSignOut": ["https://main.dymkwrcw8goz2.amplifyapp.com/"],
