@@ -33,12 +33,7 @@ function LandingPage() {
   if (auth.isAuthenticated) {
     console.log("Full Auth Object:", auth);
   // Bypass the Dashboard component temporarily to see if the screen stays white
-  return (
-    <div>
-      <h1>Bypass Mode</h1>
-      <p>If you see this, the issue is inside the Dashboard component.</p>
-    </div>
-  );
+  return <Dashboard auth={auth} SignOut={signOutRedirect} />;
   }
 
   return (
