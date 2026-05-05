@@ -97,7 +97,7 @@ function Dashboard ({auth, SignOut}) {
     };
   }, []); 
 
-  const userID = (user) => {
+  {/*const userID = (user) => {
     if (!user) return "Unknown_User";
     user_ref = table.query(KeyConditionExpression=Key('user_sub').eq(user.sub))
     if (user_ref.Items.length > 0) {
@@ -108,7 +108,7 @@ function Dashboard ({auth, SignOut}) {
       // can we add a new user to the table here? start onboarding flow?
       return "Unknown_User";
     }
-  };
+  }; */}
 
   const handleReceiptSubmit = async (file) => {
     console.log("File detected:", file); // If this is undefined, the input isn't working
