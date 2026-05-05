@@ -62,7 +62,7 @@ function Dashboard ({auth, SignOut}) {
     const pending = await getPendingReceipts();
     setPendingCount(pending.length);
   };
-/*
+
   useEffect(() => {
     refreshPendingCount();
     window.addEventListener('online', refreshPendingCount);
@@ -85,8 +85,8 @@ function Dashboard ({auth, SignOut}) {
   }
 };
   }, []);
-*/
-  /*useEffect(() => {
+
+  useEffect(() => {
     const handleStatus = () => setIsOffline(!navigator.onLine);
     window.addEventListener('online', handleStatus);
     window.addEventListener('offline', handleStatus);
@@ -94,18 +94,18 @@ function Dashboard ({auth, SignOut}) {
       window.removeEventListener('online', handleStatus);
       window.removeEventListener('offline', handleStatus);
     };
-  }, []); */
+  }, []); 
   
-  /*const handleReceiptSubmit = async (file) => {
+  const handleReceiptSubmit = async (file) => {
     console.log("File detected:", file); // If this is undefined, the input isn't working
     if (!file) return;
     const metadata = { 
       user_id: 'Michael_S', 
       category: 'General',
       timestamp: new Date().toISOString() 
-    }; */
+    }; 
 
-    /*if (navigator.onLine) {
+    if (navigator.onLine) {
       try {
         // Your S3 upload logic here
         await uploadToS3(file);
@@ -118,9 +118,9 @@ function Dashboard ({auth, SignOut}) {
       await saveToOfflineQueue(file, metadata);
       alert("Receipt saved locally! It will sync when you're back online.");
     }
-  }; */
+  }; 
   // Ensure your Dashboard uses the auth data to fetch your purchases
-/*useEffect(() => {
+  useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
   if (user) {
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
@@ -133,7 +133,7 @@ function Dashboard ({auth, SignOut}) {
   
 
 // Function to save a pending receipt locally
-/*const queueReceipt = (receiptData) => {
+const queueReceipt = (receiptData) => {
   // 1. Get the existing queue or create a new one
   const existingQueue = JSON.parse(localStorage.getItem('congreen_queue') || '[]');
   
@@ -148,7 +148,7 @@ function Dashboard ({auth, SignOut}) {
   // 3. Save back to local storage
   localStorage.setItem('congreen_queue', JSON.stringify([...existingQueue, newEntry]));
   console.log("Receipt queued for sync!");
-}; */
+}; 
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
     return purchases.reduce((total, item) => total + (parseFloat(item.price) || 0), 0);
@@ -296,27 +296,12 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   </div>
 );
 
-//console.log("Chart Data:", chartData)
-
-if (!auth || !auth.user) {
-    console.log("Current Auth State:", auth); // This will show us if isAuthenticated is true or false
-    return (
-        <div style={{textAlign: 'center', marginTop: '50px'}}>
-            <h2>Connecting to BluMirai Cloud...</h2>
-            <p>If this stays here, the login handshake didn't finish.</p>
-            {/* Temporary debug button to see if we can trigger a refresh */}
-            <button onClick={() => window.location.reload()}>Retry Handshake</button>
-        </div>
-    );
-}
-
   return (
     <>
       <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif'}}>
         <h1>ConGreen</h1>
         <h2>Good afternoon, Min!</h2>
         <button onClick={signOut}>Sign out</button>
-        {/*}
         <h3>My Spending</h3>
         <div className="dashboard-root"style={{ padding: '23px', border: '1px solid #646cff', borderRadius: '8px', display: 'inline-block'}}>
           <nav>
@@ -400,7 +385,7 @@ if (!auth || !auth.user) {
             </button>
           </div>
           <div className="purchases-container" style={{  }}>
-  <div className="purchases-header" style={{ /* ...  }}>
+  <div className="purchases-header" style={{ /* ...  */}}>
     <h3>Purchases</h3>
   </div>
   
@@ -418,7 +403,7 @@ if (!auth || !auth.user) {
       </div> 
       <div id="history">
         <h2>My History</h2>
-      </div> */}
+      </div> 
     </div>
     </>
   );
