@@ -341,7 +341,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               </BarChart>
             </ResponsiveContainer>
             <div className="upload-section">
-  <label className="upload-button">
+  {/*<label className="upload-button">
     {isOffline ? "📸 Save Receipt (Offline)" : "🚀 Upload Receipt"}
     <input 
       type="file" 
@@ -354,7 +354,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   }}
       style={{ display: 'none' }} 
     />
-  </label>
+  </label> */}
   
   
   {pendingCount > 0 && (
@@ -370,10 +370,24 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
             </div>
           </div>
         </div>
-        <div id="add-button" style={{ marginTop: '20px' }}>
+        {/*<div id="add-button" style={{ marginTop: '20px' }}>
           <button id="add-button" onClick={() => handleSpend(10)} style={{marginRight: '10px'}}>
             Add a new purchase
-          </button>
+          </button> */}
+         <label id="add-button" className="upload-button" style={{ marginTop: '20px' }}>
+    {isOffline ? "📸 Save Receipt (Offline)" : "🚀 Upload Receipt"}
+    <input 
+      type="file" 
+      accept="image/*" 
+      capture="environment" // This opens the camera directly on mobile!
+      onChange={(e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleReceiptSubmit(e.target.files[0]);
+    }
+  }}
+      style={{ display: 'none' }} 
+    />
+  </label>
         </div>
       <div id="purchases-goals" style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-around' }}>
         <div className="purchases-block">
