@@ -370,10 +370,10 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
             </div>
           </div>
         </div>
-        {/*<div id="add-button" style={{ marginTop: '20px' }}>
-          <button id="add-button" onClick={() => handleSpend(10)} style={{marginRight: '10px'}}>
+        <div id="add-button" style={{ marginTop: '20px' }}>
+          {/*<button id="add-button" onClick={() => handleSpend(10)} style={{marginRight: '10px'}}>
             Add a new purchase
-          </button> */}
+          </button>*/}
          <label id="add-button" className="upload-button" style={{ marginTop: '20px' }}>
     {isOffline ? "📸 Save Receipt (Offline)" : "🚀 Upload Receipt"}
     <input 
