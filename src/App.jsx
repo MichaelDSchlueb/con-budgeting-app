@@ -10,7 +10,6 @@ import '@aws-amplify/ui-react/styles.css';
 import { useAuth as useOIDCAuth } from "react-oidc-context";
 import { saveToOfflineQueue, getPendingReceipts, removeFromQueue } from './assets/utils/db';
 import {useAuthenticator as useAmplifyAuth} from '@aws-amplify/ui-react';
-import boto3 from 'aws-sdk/clients/s3';
 
 function LandingPage() {
   const auth = useOIDCAuth();
@@ -56,8 +55,9 @@ function Dashboard ({auth, SignOut}) {
   const [pendingCount, setPendingCount] = useState(0);
   const user = auth?.user;
   const signOut = SignOut;
-  const database_client = boto3.resource('dynamodb', { region: 'us-east-2' });
-  const table = dynamodb.Table('User_Profiles')
+
+  console.log("auth in Dashboard:", auth);
+  console.log("User in Dashboard:", user);
 
   const refreshPendingCount = async () => {
     const pending = await getPendingReceipts();
@@ -97,19 +97,11 @@ function Dashboard ({auth, SignOut}) {
     };
   }, []); 
 
-  {/*const userID = (user) => {
+  const userID = (user) => {
     if (!user) return "Unknown_User";
-    user_ref = table.query(KeyConditionExpression=Key('user_sub').eq(user.sub))
-    if (user_ref.Items.length > 0) {
-      console.log(user_ref.Items[0])
-      return user_ref.Items[0].user_id;
-    }
-    else {
-      // can we add a new user to the table here? start onboarding flow?
-      return "Unknown_User";
-    }
-  }; */}
-
+    
+  }
+  
   const handleReceiptSubmit = async (file) => {
     console.log("File detected:", file); // If this is undefined, the input isn't working
     if (!file) return;
