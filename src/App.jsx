@@ -55,8 +55,10 @@ function Dashboard ({auth, SignOut}) {
   const [pendingCount, setPendingCount] = useState(0);
   const user = auth?.user;
   const signOut = SignOut;
+  const profile = user.profile
 
   console.log("Dashboard user:", user);
+  console.log("Dashboard user profile:", profile);
 
   const refreshPendingCount = async () => {
     const pending = await getPendingReceipts();
