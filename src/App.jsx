@@ -132,7 +132,7 @@ function Dashboard ({auth, SignOut}) {
   if (user) {
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
-    fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_id=MichaelS')
+    fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}`)
       .then(res => res.json())
       .then(data => setPurchases(JSON.parse(data.body)));
   }
