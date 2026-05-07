@@ -57,8 +57,8 @@ function Dashboard ({auth, SignOut}) {
   const signOut = SignOut;
   const profile = user.profile
 
-  console.log("Dashboard user:", user);
-  console.log("Dashboard user profile:", profile['sub']);
+  //console.log("Dashboard user:", user);
+  //console.log("Dashboard user profile:", profile['sub']);
 
   const refreshPendingCount = async () => {
     const pending = await getPendingReceipts();
@@ -133,7 +133,7 @@ function Dashboard ({auth, SignOut}) {
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
     console.log("Right here");
-    fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}`)
+    fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(res => res.json())
       .then(data => setPurchases(JSON.parse(data.body)));
   }
@@ -216,7 +216,7 @@ const [purchases, setPurchases] = useState([
 */
 
 useEffect(() => {
-  fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}`)
+  fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(response => response.json())
       .then(data => {
         console.log("RAW API DATA", data)
