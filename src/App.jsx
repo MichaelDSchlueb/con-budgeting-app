@@ -132,10 +132,12 @@ function Dashboard ({auth, SignOut}) {
   if (user) {
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
-    console.log("Right here");
     fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(res => res.json())
-      .then(data => setPurchases(JSON.parse(data.body)));
+      .then(data => {
+        console.log("RAW API DATA", data);
+        setPurchases(JSON.parse(data.body));
+      });
   }
 }, [user]); // Trigger when the user logs in */
   
