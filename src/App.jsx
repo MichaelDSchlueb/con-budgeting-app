@@ -299,8 +299,8 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               borderBottom: '1px solid #30363d' 
             }}>
               <span>{key}</span>
-              <span>{p.item}</span>
-              <span>${p.amount}</span>
+              <span>{p.item_name}</span>
+              <span>${p.price_number}</span>
             </div>
           ))}
         </div>
