@@ -402,7 +402,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     />
   </label>
         </div>
-      <div id="purchases-goals" style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-around' }}>
+      <div id="purchases-goals" style={{ marginTop: '16px'}}>
         <div className="purchases-block">
           
           <h2>My Purchases</h2>
