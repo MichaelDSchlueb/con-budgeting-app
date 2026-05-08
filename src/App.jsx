@@ -313,7 +313,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     <>
       <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif'}}>
         <h1>ConGreen</h1>
-        <h2>Good afternoon, Min!</h2>
+        <h2>Good afternoon, {user['cognito:username']}!</h2>
         <button onClick={signOut}>Sign out</button>
         <h3>My Spending</h3>
         <div className="dashboard-root"style={{ padding: '23px', border: '1px solid #646cff', borderRadius: '8px', display: 'inline-block'}}>
