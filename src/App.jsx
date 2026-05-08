@@ -136,7 +136,7 @@ function Dashboard ({auth, SignOut}) {
       .then(res => res.json())
       .then(data => {
         console.log("RAW API DATA after call 1", data['0']);
-        setPurchases(JSON.parse(data.body));
+        setPurchases(data.body);
       });
   }
 }, [user]); // Trigger when the user logs in */
