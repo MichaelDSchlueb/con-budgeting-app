@@ -265,7 +265,7 @@ const chartData = useMemo(() => {
     const total = items.reduce((sum, item) => {
       console.log(item + " is being processed for total calculation.");
       // 2. Ensure amount is a number, even if it comes in as a string
-      console.log(item.price + " is being parsed as " + parseFloat(item.price));
+      console.log(item.price_number + " is being parsed as " + parseFloat(item.price_number));
       console.log(item.price + 10);
       const amount = parseFloat(item.price) || 0;
       return sum + amount;
