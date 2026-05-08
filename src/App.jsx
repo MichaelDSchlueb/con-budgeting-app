@@ -57,7 +57,7 @@ function Dashboard ({auth, SignOut}) {
   const signOut = SignOut;
   const profile = user.profile
 
-  //console.log("Dashboard user:", user);
+  console.log("Dashboard user:", user);
   //console.log("Dashboard user profile:", profile['sub']);
 
   const refreshPendingCount = async () => {
@@ -135,7 +135,7 @@ function Dashboard ({auth, SignOut}) {
     fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(res => res.json())
       .then(data => {
-        console.log("RAW API DATA after call 1", data);
+        //console.log("RAW API DATA after call 1", data);
         setPurchases(data);
       });
   }
@@ -162,7 +162,7 @@ const queueReceipt = (receiptData) => {
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
     console.log("Calculating current spend from purchases:", purchases);
-    return purchases.reduce((total, item) => total + (parseFloat(item.price) || 0), 0);
+    return purchases.reduce((total, item) => total + (parseFloat(item.price_number) || 0), 0);
   }, [purchases]);
 
   const percentUsed = (currentSpend / totalBudget) * 100;
@@ -265,8 +265,8 @@ const chartData = useMemo(() => {
     const total = items.reduce((sum, item) => {
       console.log(item + " is being processed for total calculation.");
       // 2. Ensure amount is a number, even if it comes in as a string
-      console.log(item.price_number + " is being parsed as " + parseFloat(item.price_number));
-      console.log(item.price_number + 10);
+      //console.log(item.price_number + " is being parsed as " + parseFloat(item.price_number));
+      //console.log(item.price_number + 10);
       const amount = parseFloat(item.price_number) || 0;
       return sum + amount;
     }, 0);
