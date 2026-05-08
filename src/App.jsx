@@ -251,7 +251,7 @@ const groupedPurchases = useMemo(() => {
     // Dynamically select the key based on the 'groupBy' state
     console.log(groupBy + " is the current grouping key.");
     const key = item[groupBy] || 'Uncategorized';
-    
+    console.log("Grouping item:", item, "under key:", key);
     if (!groups[key]) groups[key] = [];
     groups[key].push(item);
     return groups;
