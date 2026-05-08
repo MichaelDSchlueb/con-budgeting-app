@@ -161,6 +161,7 @@ const queueReceipt = (receiptData) => {
 }; 
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
+    console.log("Calculating current spend from purchases:", purchases);
     return purchases.reduce((total, item) => total + (parseFloat(item.price) || 0), 0);
   }, [purchases]);
 
