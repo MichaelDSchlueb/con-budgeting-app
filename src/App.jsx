@@ -249,9 +249,7 @@ const groupedPurchases = useMemo(() => {
 
   return purchases.reduce((groups, item) => {
     // Dynamically select the key based on the 'groupBy' state
-    console.log(groupBy + " is the current grouping key.");
     const key = item[groupBy] || 'Uncategorized';
-    console.log("Grouping item:", item, "under key:", key);
     if (!groups[key]) groups[key] = [];
     groups[key].push(item);
     return groups;
@@ -263,7 +261,7 @@ const chartData = useMemo(() => {
   if (!groupedPurchases) return [];
 
   return Object.entries(groupedPurchases).map(([name, items]) => {
-    
+    console.log(`Processing group: ${name} with items:`, items);
     const total = items.reduce((sum, item) => {
       // 2. Ensure amount is a number, even if it comes in as a string
       console.log(item.price + " is being parsed as " + parseFloat(item.price));
