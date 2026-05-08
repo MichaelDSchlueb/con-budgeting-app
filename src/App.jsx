@@ -136,7 +136,7 @@ function Dashboard ({auth, SignOut}) {
       .then(res => res.json())
       .then(data => {
         console.log("RAW API DATA after call 1", data['0']);
-        setPurchases(data.body);
+        setPurchases(JSON.parse(data.body));
       });
   }
 }, [user]); // Trigger when the user logs in */
@@ -264,6 +264,8 @@ const chartData = useMemo(() => {
     
     const total = items.reduce((sum, item) => {
       // 2. Ensure amount is a number, even if it comes in as a string
+      console.log(item.price + " is being parsed as " + parseFloat(item.price));
+      console.log(item.price + 10);
       const amount = parseFloat(item.price) || 0;
       return sum + amount;
     }, 0);
