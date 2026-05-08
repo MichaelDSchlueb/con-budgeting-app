@@ -135,7 +135,7 @@ function Dashboard ({auth, SignOut}) {
     fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(res => res.json())
       .then(data => {
-        console.log("RAW API DATA after call 1", data['0']);
+        console.log("RAW API DATA after call 1", data.body);
         setPurchases(data.body);
       });
   }
@@ -222,7 +222,7 @@ useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(response => response.json())
       .then(data => {
-        console.log("RAW API DATA after call 2", data)
+        console.log("RAW API DATA after call 2", data.body)
         setPurchases(JSON.parse(data.body)); // Assuming the API returns a JSON string in the body
         setLoading(false);
       })
