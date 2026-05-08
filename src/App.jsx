@@ -263,6 +263,7 @@ const chartData = useMemo(() => {
   return Object.entries(groupedPurchases).map(([name, items]) => {
     console.log(`Processing group: ${name} with items:`, items);
     const total = items.reduce((sum, item) => {
+      console.log(item + " is being processed for total calculation.");
       // 2. Ensure amount is a number, even if it comes in as a string
       console.log(item.price + " is being parsed as " + parseFloat(item.price));
       console.log(item.price + 10);
