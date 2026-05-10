@@ -224,10 +224,10 @@ useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user_id?user_sub=${profile['sub']}`)
   .then(response => response.json())
   .then(data => {
-    console.log("Received user budget data:", data);
+    console.log("Received user budget data:", data['0']);
     setTotalBudget(data['0'].total_budget); // Adjust based on actual API response structure
-    setNextCon(data.next_con);
-    console.log(`User's total budget: ${data.total_budget}, next con: ${data.next_con}`);
+    setNextCon(data['0'].next_con);
+    console.log(`User's total budget: ${data['0'].total_budget}, next con: ${data['0'].next_con}`);
   })
 });
 
