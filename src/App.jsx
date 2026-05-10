@@ -141,6 +141,31 @@ function Dashboard ({auth, SignOut}) {
       });
   }
 }, [user]); // Trigger when the user logs in */
+
+useEffect(() => {
+  const handleAutoSync = async () => {
+    if (navigator.onLine) {
+      console.log("Network back! Starting auto-sync...");
+      const pending = await getPendingReceipts();
+      
+      for (const item of pending) {
+        try {
+          // Trigger your S3 upload logic
+          await uploadToS3(item.file, item.metadata); 
+          // Once S3 confirms, remove from local storage
+          await removeFromQueue(item.id);
+          console.log(`Synced & Cleared receipt: ${item.id}`);
+        } catch (err) {
+          console.error("Sync failed for item:", item.id, err);
+        }
+      }
+      refreshPendingCount(); // Update the UI badge
+    }
+  };
+
+  window.addEventListener('online', handleAutoSync);
+  return () => window.removeEventListener('online', handleAutoSync);
+}, []);
   
 useEffect(() => {
   // Try to sync immediately when the dashboard loads
