@@ -220,14 +220,11 @@ const [purchases, setPurchases] = useState([
 */
 
 useEffect(() => {
-  console.log("Now acquiring budget and con information for the user ", profile['sub']);
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user_id?user_sub=${profile['sub']}`)
   .then(response => response.json())
   .then(data => {
-    console.log("Received user budget data:", data['0']);
     setTotalBudget(data['0'].budget); // Adjust based on actual API response structure
     setNextCon(data['0'].next_con);
-    console.log(`User's total budget: ${data['0'].budget}, next con: ${data['0'].next_con}`);
   })
 });
 
@@ -235,8 +232,8 @@ useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(response => response.json())
       .then(data => {
-        //console.log("RAW API DATA after call 2", data)
-        setPurchases(JSON.parse(data.body)); // Assuming the API returns a JSON string in the body
+      console.log("RAW API DATA after call 2", data.body)
+        setPurchases(data.body); // Assuming the API returns a JSON string in the body
         setLoading(false);
       })
     .catch(err => console.error('Error fetching purchases:', err));
