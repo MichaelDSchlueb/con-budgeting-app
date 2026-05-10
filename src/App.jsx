@@ -232,8 +232,8 @@ useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(response => response.json())
       .then(data => {
-      console.log("RAW API DATA after call 2", data.body)
-        setPurchases(data.body); // Assuming the API returns a JSON string in the body
+      console.log("RAW API DATA after call 2", data)
+        setPurchases(data); // Assuming the API returns a JSON string in the body
         setLoading(false);
       })
     .catch(err => console.error('Error fetching purchases:', err));
