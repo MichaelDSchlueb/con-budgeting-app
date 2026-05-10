@@ -58,6 +58,44 @@ function Dashboard ({auth, SignOut}) {
   const profile = user.profile
   const [nextCon, setNextCon] = useState(""); // blank string until we fetch it from the API
 
+  const uploadToS3 = async (file) => {
+  try {
+    // STEP 1: Get a Pre-signed URL from your Lambda/API Gateway
+    // Replace this URL with your actual endpoint
+    const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/uploads', {
+      method: 'POST',
+      body: JSON.stringify({
+        fileName: `receipt_${Date.now()}.jpg`,
+        fileType: file.type,
+        user_sub: '11dbb550-20d1-70c0-7581-c4dc54f3425c'
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': `Bearer ${token}` // Add this once Cognito is fully wired
+      }
+    });
+
+    const { uploadURL } = await response.json();
+
+    // STEP 2: Use that URL to push the binary data to S3
+    const uploadResult = await fetch(uploadURL, {
+      method: 'PUT',
+      body: file, // The raw Blob from IndexedDB
+      headers: {
+        'Content-Type': file.type
+      }
+    });
+
+    if (!uploadResult.ok) throw new Error("S3 Upload Failed");
+
+    console.log("Mission-Critical: File safely in S3 bucket.");
+    return true;
+  } catch (err) {
+    console.error("Pipeline Error:", err);
+    throw err; // Re-throw so the 'drain' loop knows NOT to delete from outbox
+  }
+};
+
   const handleAutoSync = async () => {
   console.log("Attempting to drain outbox...");
   const pending = await getPendingReceipts();
@@ -373,7 +411,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <h1>ConGreen</h1>
         <h2>Good afternoon, {profile['cognito:username']}!</h2>
         <button onClick={signOut}>Sign out</button>
-        <h3>Welcome to ${nextCon}</h3>
+        <h3>Welcome to {nextCon}</h3>
         <div className="dashboard-root"style={{ padding: '23px', border: '1px solid #646cff', borderRadius: '8px', display: 'inline-block'}}>
           <nav>
             <ul>
