@@ -251,6 +251,27 @@ const categoryCodeMap = {
   // Add more mappings as needed
 };
 
+// A conceptual look at the drain logic
+const drainOutbox = async () => {
+  const pending = await getPendingReceipts();
+  console.log(`MomoCon Sync: Found ${pending.length} receipts to upload.`);
+
+  for (const item of pending) {
+    try {
+      // 1. Send to your AWS S3 Ingestion Bucket
+      await uploadToS3(item.file); 
+      
+      // 2. ONLY if S3 confirms receipt, delete local copy
+      await removeFromQueue(item.id); 
+      
+      console.log(`Sync complete for receipt #${item.id}`);
+    } catch (err) {
+      console.error("Cloud upload failed, keeping file local for retry.", err);
+    }
+  }
+  refreshPendingCount(); // Update your UI badge to '0'
+};
+
 // The helper function to get the code
 const getCategoryCode = (category) => categoryCodeMap[category] || '??';
 
