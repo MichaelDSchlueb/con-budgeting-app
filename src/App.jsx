@@ -225,7 +225,7 @@ useEffect(() => {
   .then(response => response.json())
   .then(data => {
     console.log("Received user budget data:", data);
-    setTotalBudget(data.total_budget);
+    setTotalBudget(data['0'].total_budget); // Adjust based on actual API response structure
     setNextCon(data.next_con);
     console.log(`User's total budget: ${data.total_budget}, next con: ${data.next_con}`);
   })
