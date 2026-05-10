@@ -47,7 +47,7 @@ function LandingPage() {
 
 function Dashboard ({auth, SignOut}) {
   const [count, setCount] = useState(0)
-  const [totalBudget, setTotalBudget] = useState(1250);
+  const [totalBudget, setTotalBudget] = useState(0);
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupBy, setGroupBy] = useState('category'); // New state for grouping
@@ -56,6 +56,7 @@ function Dashboard ({auth, SignOut}) {
   const user = auth?.user;
   const signOut = SignOut;
   const profile = user.profile
+  const [nextCon, setNextCon] = useState(""); // blank string until we fetch it from the API
 
   console.log("Dashboard user:", profile['cognito:username']);
   //console.log("Dashboard user profile:", profile['sub']);
@@ -223,7 +224,9 @@ useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user_id?user_sub=${profile['sub']}`)
   .then(response => response.json())
   .then(data => {
-    console.log("Received user data:", data);
+    setTotalBudget(data.total_budget);
+    setNextCon(data.next_con);
+    console.log(`User's total budget: ${data.total_budget}, next con: ${data.next_con}`);
   })
 });
 
