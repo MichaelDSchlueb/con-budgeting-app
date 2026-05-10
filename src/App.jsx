@@ -13,7 +13,7 @@ import {useAuthenticator as useAmplifyAuth} from '@aws-amplify/ui-react';
 
 function LandingPage() {
   const auth = useOIDCAuth();
-  console.log("Auth state in LandingPage:", auth);
+  //console.log("Auth state in LandingPage:", auth);
 
   const signOutRedirect = () => {
     const clientId = "5d32h4mt57n9ljti8d8fhkcflt";
@@ -58,7 +58,7 @@ function Dashboard ({auth, SignOut}) {
   const profile = user.profile
   const [nextCon, setNextCon] = useState(""); // blank string until we fetch it from the API
 
-  console.log("Dashboard user:", profile['cognito:username']);
+  //console.log("Dashboard user:", profile['cognito:username']);
   //console.log("Dashboard user profile:", profile['sub']);
 
   const refreshPendingCount = async () => {
@@ -162,7 +162,7 @@ const queueReceipt = (receiptData) => {
 }; 
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
-    console.log("Calculating current spend from purchases:", purchases);
+    //console.log("Calculating current spend from purchases:", purchases);
     return purchases.reduce((total, item) => total + (parseFloat(item.price_number) || 0), 0);
   }, [purchases]);
 
@@ -232,7 +232,7 @@ useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
       .then(response => response.json())
       .then(data => {
-      console.log("RAW API DATA after call 2", data)
+      //console.log("RAW API DATA after call 2", data)
         setPurchases(data); // Assuming the API returns a JSON string in the body
         setLoading(false);
       })
@@ -271,12 +271,9 @@ const chartData = useMemo(() => {
   if (!groupedPurchases) return [];
 
   return Object.entries(groupedPurchases).map(([name, items]) => {
-    console.log(`Processing group: ${name} with items:`, items);
+    //console.log(`Processing group: ${name} with items:`, items);
     const total = items.reduce((sum, item) => {
-      console.log(item + " is being processed for total calculation.");
       // 2. Ensure amount is a number, even if it comes in as a string
-      //console.log(item.price_number + " is being parsed as " + parseFloat(item.price_number));
-      //console.log(item.price_number + 10);
       const amount = parseFloat(item.price_number) || 0;
       return sum + amount;
     }, 0);
@@ -325,7 +322,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <h1>ConGreen</h1>
         <h2>Good afternoon, {profile['cognito:username']}!</h2>
         <button onClick={signOut}>Sign out</button>
-        <h3>My Spending</h3>
+        <h3>Welcome to ${nextCon}</h3>
         <div className="dashboard-root"style={{ padding: '23px', border: '1px solid #646cff', borderRadius: '8px', display: 'inline-block'}}>
           <nav>
             <ul>
@@ -458,7 +455,7 @@ export default function App() {
   return (
     <BrowserRouter basename="/">
       <Routes>
-        {console.log("Defining Routes...")}
+        {/*{console.log("Defining Routes...")}*/}
         { <Route path="/" element={<LandingPage />} /> }
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
