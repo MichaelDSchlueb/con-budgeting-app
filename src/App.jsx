@@ -224,6 +224,7 @@ useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user_id?user_sub=${profile['sub']}`)
   .then(response => response.json())
   .then(data => {
+    console.log("Received user budget data:", data);
     setTotalBudget(data.total_budget);
     setNextCon(data.next_con);
     console.log(`User's total budget: ${data.total_budget}, next con: ${data.next_con}`);
