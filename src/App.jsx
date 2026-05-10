@@ -58,8 +58,32 @@ function Dashboard ({auth, SignOut}) {
   const profile = user.profile
   const [nextCon, setNextCon] = useState(""); // blank string until we fetch it from the API
 
-  //console.log("Dashboard user:", profile['cognito:username']);
-  //console.log("Dashboard user profile:", profile['sub']);
+  const handleAutoSync = async () => {
+  console.log("Attempting to drain outbox...");
+  const pending = await getPendingReceipts();
+  
+  if (pending.length === 0) {
+    console.log("Outbox is already empty.");
+    return;
+  }
+
+  for (const item of pending) {
+    try {
+      console.log(`Uploading item ${item.id} to S3...`);
+      
+      // STOP: If you don't have S3 logic yet, comment this out to test the loop:
+      // await uploadToS3(item.file); 
+      
+      console.log(`Upload successful for ${item.id}. Removing from local DB...`);
+      await removeFromQueue(item.id);
+    } catch (err) {
+      console.error("Critical Sync Error for item " + item.id, err);
+      // We break here so we don't spam the server if it's down
+      break; 
+    }
+  }
+  refreshPendingCount();
+};
 
   const refreshPendingCount = async () => {
     const pending = await getPendingReceipts();
@@ -141,31 +165,6 @@ function Dashboard ({auth, SignOut}) {
       });
   }
 }, [user]); // Trigger when the user logs in */
-
-useEffect(() => {
-  const handleAutoSync = async () => {
-    if (navigator.onLine) {
-      console.log("Network back! Starting auto-sync...");
-      const pending = await getPendingReceipts();
-      
-      for (const item of pending) {
-        try {
-          // Trigger your S3 upload logic
-          await uploadToS3(item.file, item.metadata); 
-          // Once S3 confirms, remove from local storage
-          await removeFromQueue(item.id);
-          console.log(`Synced & Cleared receipt: ${item.id}`);
-        } catch (err) {
-          console.error("Sync failed for item:", item.id, err);
-        }
-      }
-      refreshPendingCount(); // Update the UI badge
-    }
-  };
-
-  window.addEventListener('online', handleAutoSync);
-  return () => window.removeEventListener('online', handleAutoSync);
-}, []);
   
 useEffect(() => {
   // Try to sync immediately when the dashboard loads
