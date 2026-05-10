@@ -142,7 +142,13 @@ function Dashboard ({auth, SignOut}) {
   }
 }, [user]); // Trigger when the user logs in */
   
-
+useEffect(() => {
+  // Try to sync immediately when the dashboard loads
+  if (navigator.onLine) {
+    console.log("Dashboard loaded & online. Forcing sync...");
+    handleAutoSync(); 
+  }
+}, []);
 // Function to save a pending receipt locally
 const queueReceipt = (receiptData) => {
   // 1. Get the existing queue or create a new one
