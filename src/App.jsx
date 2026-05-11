@@ -110,7 +110,7 @@ function Dashboard ({auth, SignOut}) {
       console.log(`Uploading item ${item.id} to S3...`);
       
       // STOP: If you don't have S3 logic yet, comment this out to test the loop:
-      // await uploadToS3(item.file); 
+      await uploadToS3(item.file); 
       
       console.log(`Upload successful for ${item.id}. Removing from local DB...`);
       await removeFromQueue(item.id);
