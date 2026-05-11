@@ -474,7 +474,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 </div>
             </div>
             <div id="recommendations">
-              <h2>Recommendations</h2>
+              <h2>Recommendations 3</h2>
               <p>Based on your spending, we recommend checking out the art vendors on the 3rd floor for some unique finds!</p>
             </div>
           </div>
