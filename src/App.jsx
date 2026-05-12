@@ -82,7 +82,7 @@ function Dashboard ({auth, SignOut}) {
       method: 'PUT',
       body: file, // The raw Blob from IndexedDB
       headers: {
-        'Content-Type': file.type
+        'Content-Type': 'image/jpeg' // Adjust if you support more types
       }
     });
 
