@@ -175,7 +175,7 @@ function Dashboard ({auth, SignOut}) {
     console.log("File detected:", file); // If this is undefined, the input isn't working
     if (!file) return;
     const metadata = { 
-      user_id: 'Michael_S', 
+      user_sub: profile['sub'], 
       category: 'General',
       timestamp: new Date().toISOString() 
     }; 
