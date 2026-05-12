@@ -57,7 +57,7 @@ function Dashboard ({auth, SignOut}) {
   const signOut = SignOut;
   const profile = user.profile
   const [nextCon, setNextCon] = useState(""); // blank string until we fetch it from the API
-
+  console.log(profile['sub'])
   const uploadToS3 = async (file) => {
   try {
     // STEP 1: Get a Pre-signed URL from your Lambda/API Gateway
@@ -67,7 +67,7 @@ function Dashboard ({auth, SignOut}) {
       body: JSON.stringify({
         fileName: `receipt_${Date.now()}.jpg`,
         fileType: file.type,
-        user_sub: '11dbb550-20d1-70c0-7581-c4dc54f3425c'
+        user_sub: profile['sub']
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -417,6 +417,12 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <h2>Good afternoon, {profile['cognito:username']}!</h2>
         <button onClick={signOut}>Sign out</button>
         <h3>Welcome to {nextCon}</h3>
+        {/* 
+        <form action="url to lambda" method="POST">
+          <input type="con_name" name="receipt" accept="image/*" capture="environment" />
+          <button type="submit">Upload Receipt</button>
+        </form>
+        */}
         <div className="dashboard-root"style={{ padding: '23px', border: '1px solid #646cff', borderRadius: '8px', display: 'inline-block'}}>
           <nav>
             <ul>
@@ -479,7 +485,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 </div>
             </div>
             <div id="recommendations">
-              <h2>Recommendations 3</h2>
+              <h2>Recommendations</h2>
               <p>Based on your spending, we recommend checking out the art vendors on the 3rd floor for some unique finds!</p>
             </div>
           </div>
