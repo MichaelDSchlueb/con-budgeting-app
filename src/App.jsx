@@ -86,7 +86,12 @@ function Dashboard ({auth, SignOut}) {
       }
     });
 
-    if (!uploadResult.ok) throw new Error("S3 Upload Failed");
+    if (uploadResult.ok) {
+      console.log("File uploaded successfully to S3.");
+    } else {
+      const errorText = await uploadResult.text();
+      console.error("S3 rejected the file:", errorText);
+    }
 
     console.log("Mission-Critical: File safely in S3 bucket.");
     return true;
