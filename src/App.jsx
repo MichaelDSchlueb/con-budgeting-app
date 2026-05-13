@@ -18,7 +18,7 @@ function LandingPage() {
   const signOutRedirect = () => {
     const clientId = "5d32h4mt57n9ljti8d8fhkcflt";
     const logoutUri = "https://main.dymkwrcw8goz2.amplifyapp.com/";
-    const cognitoDomain = "https://main.d12345.amplifyapp.com/";
+    const cognitoDomain = "https://main.dymkwrcw8goz2.amplifyapp.com/";
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
@@ -435,7 +435,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
           </nav>
           <div className="dashboard-main">
             <div id="Donut" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {nextCon && totalSpent > 0 && (
+              {nextCon && totalBudget > 0 && (
               <div id="DonutGuage" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <DonutGauge percent={percentUsed} />
                 <p>Spending: ${currentSpend} / ${totalBudget}</p>
