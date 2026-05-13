@@ -139,27 +139,35 @@ function Dashboard ({auth, SignOut}) {
   };
 
   useEffect(() => {
-    refreshPendingCount();
-    window.addEventListener('online', refreshPendingCount);
-    return () => window.removeEventListener('online', refreshPendingCount);
-
-    const syncOutbox = async () => {
-  if (navigator.onLine) {
-    const pending = await getPendingReceipts(); // Now imported!
-    for (const receipt of pending) {
-      try {
-        // This is where it hits your S3 -> SQS -> Lambda pipeline
-        await uploadToS3(receipt.file); 
-        await removeFromQueue(receipt.id); // Cleanup local PII
-        console.log("Mission-Critical Sync: Receipt uploaded successfully.");
-      } catch (err) {
-        console.error("Sync failed for this item, keeping in outbox.", err);
+  // 1. Define the logic first
+  const syncOutbox = async () => {
+    if (navigator.onLine) {
+      const pending = await getPendingReceipts();
+      for (const receipt of pending) {
+        try {
+          await uploadToS3(receipt.file); 
+          await removeFromQueue(receipt.id);
+          console.log("Mission-Critical Sync: Receipt uploaded successfully.");
+        } catch (err) {
+          console.error("Sync failed for this item.", err);
+        }
       }
+      refreshPendingCount(); 
     }
-    refreshPendingCount(); // Update your new UI badge
-  }
-};
-  }, []);
+  };
+
+  // 2. Execute initial logic
+  refreshPendingCount();
+  syncOutbox(); // Call it so it runs on mount!
+
+  // 3. Set up event listeners
+  window.addEventListener('online', syncOutbox);
+
+  // 4. Clean up at the very end
+  return () => {
+    window.removeEventListener('online', syncOutbox);
+  };
+}, []);
 
   useEffect(() => {
     const handleStatus = () => setIsOffline(!navigator.onLine);
