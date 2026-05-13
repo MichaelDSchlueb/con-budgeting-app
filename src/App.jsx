@@ -517,7 +517,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <div className="purchases-block">
           
           <h2>My Purchases</h2>
-          {nextCon && purchases > 0 ?
+          {nextCon && purchases ?
           (<div style={{ marginBottom: '10px', textAlign: 'right' }}>
             <button id="group-by-category" onClick={() => setGroupBy(prev => prev === 'category' ? 'date' : 'category')}>
               Switch Grouping (Current: {groupBy})
@@ -527,7 +527,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               <p>No purchases to display.</p>
             </div>
           )}
-          {nextCon && purchases > 0 && (<div className="purchases-container" style={{  }}>
+          {nextCon && purchases && (<div className="purchases-container" style={{  }}>
   <div className="purchases-header" style={{ /* ...  */}}>
     <h3>Purchases</h3>
   </div>
