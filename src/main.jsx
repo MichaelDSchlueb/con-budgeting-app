@@ -24,7 +24,7 @@ const amplifyconfig = {
       "userPoolClientId": "5d32h4mt57n9ljti8d8fhkcflt",
       "loginWith": {
         "oauth": {
-          "domain": "https://us-east-25krmfc4ny.auth.us-east-2.amazoncognito.com",
+          "domain": "us-east-25krmfc4ny.auth.us-east-2.amazoncognito.com",
           "scopes": ["openid", "email", "profile", "aws.cognito.signin.user.admin"],
           "redirectSignIn": ["https://main.dymkwrcw8goz2.amplifyapp.com/dashboard"],
           "redirectSignOut": ["https://main.dymkwrcw8goz2.amplifyapp.com/"],
