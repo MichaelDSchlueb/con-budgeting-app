@@ -416,7 +416,9 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <h1>ConGreen</h1>
         <h2>Good afternoon, {profile['cognito:username']}!</h2>
         <button onClick={signOut}>Sign out</button>
-        <h3>Welcome to {nextCon}</h3>
+        { nextCon && (
+          <h3>Welcome to {nextCon}</h3>
+        )}
         {/* 
         <form action="url to lambda" method="POST">
           <input type="con_name" name="receipt" accept="image/*" capture="environment" />
