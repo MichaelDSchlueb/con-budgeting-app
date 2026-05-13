@@ -490,7 +490,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
             </div>
             <div id="recommendations">
               <h2>Recommendations</h2>
-              <p>Based on your spending, we recommend checking out the art vendors on the 3rd floor for some unique finds!</p>
+              <p>Coming soon, AI insights with Joao</p>
             </div>
           </div>
         </div>
@@ -517,11 +517,16 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <div className="purchases-block">
           
           <h2>My Purchases</h2>
-          <div style={{ marginBottom: '10px', textAlign: 'right' }}>
+          {nextCon && purchases > 0 ?
+          (<div style={{ marginBottom: '10px', textAlign: 'right' }}>
             <button id="group-by-category" onClick={() => setGroupBy(prev => prev === 'category' ? 'date' : 'category')}>
               Switch Grouping (Current: {groupBy})
             </button>
-          </div>
+          </div>) : (
+            <div className="empty-state">
+              <p>No purchases to display.</p>
+            </div>
+          )}
           <div className="purchases-container" style={{  }}>
   <div className="purchases-header" style={{ /* ...  */}}>
     <h3>Purchases</h3>
