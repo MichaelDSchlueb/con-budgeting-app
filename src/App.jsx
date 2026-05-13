@@ -435,10 +435,12 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
           </nav>
           <div className="dashboard-main">
             <div id="Donut" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {nextCon && totalSpent > 0 && (
               <div id="DonutGuage" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <DonutGauge percent={percentUsed} />
                 <p>Spending: ${currentSpend} / ${totalBudget}</p>
               </div>
+              )}
             </div>
             <div style={{ width: '100%', height: '250px' }}>
             <ResponsiveContainer width="100%" height="100%">
