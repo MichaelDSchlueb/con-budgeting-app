@@ -10,16 +10,28 @@ import '@aws-amplify/ui-react/styles.css';
 import { useAuth as useOIDCAuth } from "react-oidc-context";
 import { saveToOfflineQueue, getPendingReceipts, removeFromQueue } from './assets/utils/db';
 import {useAuthenticator as useAmplifyAuth} from '@aws-amplify/ui-react';
+import { signOut } from 'aws-amplify/auth'
 
 function LandingPage() {
   const auth = useOIDCAuth();
   //console.log("Auth state in LandingPage:", auth);
 
-  const signOutRedirect = () => {
-    const clientId = "5d32h4mt57n9ljti8d8fhkcflt";
-    const logoutUri = "https://main.dymkwrcw8goz2.amplifyapp.com/";
-    const cognitoDomain = "https://us-east-25krmfc4ny.auth.us-east-2.amazoncognito.com";
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  const signOutRedirect = async () => {
+    try {
+      // 1. Tell Amplify to clear local tokens and storage
+      await signOut(); 
+    
+      // 2. Define your variables
+      const { userPoolClientId, loginWith } = amplifyconfig.Auth.Cognito;
+      const { domain, redirectSignOut } = loginWith.oauth;
+    
+      // 3. Now send them to the Hosted UI to clear the server session
+      const cognitoUrl = `https://${domain}/logout?client_id=${userPoolClientId}&logout_uri=${encodeURIComponent(redirectSignOut[0])}`;
+    
+      window.location.href = cognitoUrl;
+    } catch (error) {
+      console.error('Error during sign out:', error);
+    }
   };
 
   if (auth.isLoading) {
