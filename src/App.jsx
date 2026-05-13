@@ -527,7 +527,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               <p>No purchases to display.</p>
             </div>
           )}
-          <div className="purchases-container" style={{  }}>
+          {nextCon && purchases > 0 && (<div className="purchases-container" style={{  }}>
   <div className="purchases-header" style={{ /* ...  */}}>
     <h3>Purchases</h3>
   </div>
@@ -538,7 +538,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     groupBy={groupBy} 
     setGroupBy={setGroupBy} 
   />
-</div>
+</div>)}
         </div>
         <div id="goals">
         <h2>My Goals</h2>
