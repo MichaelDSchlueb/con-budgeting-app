@@ -17,6 +17,10 @@ function LandingPage() {
   //console.log("Auth state in LandingPage:", auth);
 
   const signOutRedirect = () => {
+
+    localStorage.clear();
+    sessionStorage.clear();
+
     const clientId = "5d32h4mt57n9ljti8d8fhkcflt";
     const logoutUri = "https://main.dymkwrcw8goz2.amplifyapp.com/";
     const cognitoDomain = "https://us-east-25krmfc4ny.auth.us-east-2.amazoncognito.com";
