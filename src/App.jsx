@@ -169,7 +169,7 @@ function Dashboard ({auth, SignOut}) {
   };
 }, []); */
 
-  useEffect(() => {
+  /*useEffect(() => {
     const handleStatus = () => setIsOffline(!navigator.onLine);
     window.addEventListener('online', handleStatus);
     window.addEventListener('offline', handleStatus);
@@ -177,14 +177,14 @@ function Dashboard ({auth, SignOut}) {
       window.removeEventListener('online', handleStatus);
       window.removeEventListener('offline', handleStatus);
     };
-  }, []); 
+  }, []); */
 
   const userID = (user) => {
     if (!user) return "Unknown_User";
     
   }
   
-  const handleReceiptSubmit = async (file) => {
+  /* const handleReceiptSubmit = async (file) => {
     console.log("File detected:", file); // If this is undefined, the input isn't working
     if (!file) return;
     const metadata = { 
@@ -206,7 +206,7 @@ function Dashboard ({auth, SignOut}) {
       await saveToOfflineQueue(file, metadata);
       alert("Receipt saved locally! It will sync when you're back online.");
     }
-  }; 
+  }; */
   // Ensure your Dashboard uses the auth data to fetch your purchases
   useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
