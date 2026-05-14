@@ -137,7 +137,7 @@ function Dashboard ({auth, SignOut}) {
     const pending = await getPendingReceipts();
     setPendingCount(pending.length);
   };
-
+/*
   useEffect(() => {
   // 1. Define the logic first
   const syncOutbox = async () => {
@@ -167,7 +167,7 @@ function Dashboard ({auth, SignOut}) {
   return () => {
     window.removeEventListener('online', syncOutbox);
   };
-}, []);
+}, []); */
 
   useEffect(() => {
     const handleStatus = () => setIsOffline(!navigator.onLine);
