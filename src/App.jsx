@@ -222,15 +222,15 @@ function Dashboard ({auth, SignOut}) {
   }
 }, [user]); // Trigger when the user logs in */
   
-useEffect(() => {
+/* useEffect(() => {
   // Try to sync immediately when the dashboard loads
   if (navigator.onLine) {
     console.log("Dashboard loaded & online. Forcing sync...");
     handleAutoSync(); 
   }
-}, []);
+}, []); */
 // Function to save a pending receipt locally
-const queueReceipt = (receiptData) => {
+/* const queueReceipt = (receiptData) => {
   // 1. Get the existing queue or create a new one
   const existingQueue = JSON.parse(localStorage.getItem('congreen_queue') || '[]');
   
@@ -245,7 +245,7 @@ const queueReceipt = (receiptData) => {
   // 3. Save back to local storage
   localStorage.setItem('congreen_queue', JSON.stringify([...existingQueue, newEntry]));
   console.log("Receipt queued for sync!");
-}; 
+}; */
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
     //console.log("Calculating current spend from purchases:", purchases);
@@ -338,7 +338,7 @@ const categoryCodeMap = {
 };
 
 // A conceptual look at the drain logic
-const drainOutbox = async () => {
+/* const drainOutbox = async () => {
   const pending = await getPendingReceipts();
   console.log(`MomoCon Sync: Found ${pending.length} receipts to upload.`);
 
@@ -356,7 +356,7 @@ const drainOutbox = async () => {
     }
   }
   refreshPendingCount(); // Update your UI badge to '0'
-};
+}; */
 
 // The helper function to get the code
 const getCategoryCode = (category) => categoryCodeMap[category] || '??';
