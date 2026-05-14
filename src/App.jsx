@@ -518,26 +518,34 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
             </div>
           </div>
         </div>
-        <div id="add-button" style={{ marginTop: '20px' }}>
-          {/*<button id="add-button" onClick={() => handleSpend(10)} style={{marginRight: '10px'}}>
-            Add a new purchase
-          </button>*/}
-         <label id="add-button" className="upload-button" style={{ marginTop: '20px' }}>
-    {isOffline ? "📸 Save Receipt (Offline)" : "🚀 Upload Receipt"}
+        // --- Inside your JSX ---
+
+<div className="upload-options">
+  {/* PATH 1: Direct Camera Scan */}
+  <label htmlFor="camera-upload" className="action-btn camera-btn">
+    📷 Scan Receipt
     <input 
       type="file" 
       accept="image/*" 
-      // capture="environment" // This opens the camera directly on mobile!
-      onChange={(e) => {
-        if (e.target.files && e.target.files[0]) {
-          handleReceiptSubmit(e.target.files[0]);
-    }
-  }}
+      capture="environment" 
+      id="camera-upload"
+      onChange={(e) => e.target.files?.[0] && handleReceiptSubmit(e.target.files[0])}
       style={{ display: 'none' }} 
-      id="universal-upload"
     />
   </label>
-        </div>
+
+  {/* PATH 2: Gallery / File Upload */}
+  <label htmlFor="gallery-upload" className="action-btn gallery-btn">
+    🖼️ Upload Gallery
+    <input 
+      type="file" 
+      accept="image/*" 
+      id="gallery-upload"
+      onChange={(e) => e.target.files?.[0] && handleReceiptSubmit(e.target.files[0])}
+      style={{ display: 'none' }} 
+    />
+  </label>
+</div>
       <div id="purchases-goals" style={{ marginTop: '16px'}}>
         <div className="purchases-block">
           
