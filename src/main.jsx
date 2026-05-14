@@ -43,12 +43,6 @@ Amplify.configure(amplifyconfig);
 
 console.log("Starting app render...");
 
-// Add this logic where your Auth confirms the user is logged in
-if (window.location.search.includes("code=")) {
-    // This removes the ?code=... from the address bar without reloading the page
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider {...cognitoAuthConfig}>

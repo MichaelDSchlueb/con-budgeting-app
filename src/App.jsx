@@ -291,6 +291,17 @@ const queueReceipt = (receiptData) => {
     </div>
   );
 };
+
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  if (urlParams.has('code') && urlParams.has('state')) {
+    // 1. Process the login (Amplify/Cognito usually does this automatically)
+    // 2. Immediately clean the URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+    console.log("Auth parameters cleared from URL to prevent refresh loops.");
+  }
+}, []);
 /*
 const [purchases, setPurchases] = useState([
   { id: 1, item: 'Badge', amount: 50, category: 'Convention', date: '2026-05-21' },
