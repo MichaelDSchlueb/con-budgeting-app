@@ -505,12 +505,12 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   </label> */}
   
   
-  {pendingCount > 0 && (
-    <div className="sync-status">
-      {pendingCount} waiting to sync...
-    </div>
-  )}
-</div>
+            {pendingCount > 0 && (
+              <div className="sync-status">
+                  {pendingCount} waiting to sync...
+              </div>
+            )}
+          </div>
             </div>
             <div id="recommendations">
               <h2>Recommendations</h2>
@@ -518,11 +518,10 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
             </div>
           </div>
         </div>
-        // --- Inside your JSX ---
 
 <div className="upload-options">
   {/* PATH 1: Direct Camera Scan */}
-  <label htmlFor="camera-upload" className="action-btn camera-btn">
+  <label id="scan-button" htmlFor="camera-upload" className="action-btn camera-btn">
     📷 Scan Receipt
     <input 
       type="file" 
@@ -535,7 +534,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   </label>
 
   {/* PATH 2: Gallery / File Upload */}
-  <label htmlFor="gallery-upload" className="action-btn gallery-btn">
+  <label id="gallery-button" htmlFor="gallery-upload" className="action-btn gallery-btn">
     🖼️ Upload Gallery
     <input 
       type="file" 
