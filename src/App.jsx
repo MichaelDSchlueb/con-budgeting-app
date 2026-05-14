@@ -527,13 +527,14 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     <input 
       type="file" 
       accept="image/*" 
-      capture="environment" // This opens the camera directly on mobile!
+      // capture="environment" // This opens the camera directly on mobile!
       onChange={(e) => {
         if (e.target.files && e.target.files[0]) {
           handleReceiptSubmit(e.target.files[0]);
     }
   }}
       style={{ display: 'none' }} 
+      id="universal-upload"
     />
   </label>
         </div>
