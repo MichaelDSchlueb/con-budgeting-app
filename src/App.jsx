@@ -28,6 +28,11 @@ function LandingPage() {
   };
 
   if (auth.isLoading) {
+    // Add this logic where your Auth confirms the user is logged in
+    if (window.location.search.includes("code=")) {
+      // This removes the ?code=... from the address bar without reloading the page
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
     return <div>Loading...</div>;
   }
 
@@ -137,7 +142,7 @@ function Dashboard ({auth, SignOut}) {
     const pending = await getPendingReceipts();
     setPendingCount(pending.length);
   };
-/*
+
   useEffect(() => {
   // 1. Define the logic first
   const syncOutbox = async () => {
@@ -167,9 +172,9 @@ function Dashboard ({auth, SignOut}) {
   return () => {
     window.removeEventListener('online', syncOutbox);
   };
-}, []); */
+}, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     const handleStatus = () => setIsOffline(!navigator.onLine);
     window.addEventListener('online', handleStatus);
     window.addEventListener('offline', handleStatus);
@@ -177,14 +182,14 @@ function Dashboard ({auth, SignOut}) {
       window.removeEventListener('online', handleStatus);
       window.removeEventListener('offline', handleStatus);
     };
-  }, []); */
+  }, []); 
 
   const userID = (user) => {
     if (!user) return "Unknown_User";
     
   }
   
-  /* const handleReceiptSubmit = async (file) => {
+  const handleReceiptSubmit = async (file) => {
     console.log("File detected:", file); // If this is undefined, the input isn't working
     if (!file) return;
     const metadata = { 
@@ -206,7 +211,7 @@ function Dashboard ({auth, SignOut}) {
       await saveToOfflineQueue(file, metadata);
       alert("Receipt saved locally! It will sync when you're back online.");
     }
-  }; */
+  }; 
   // Ensure your Dashboard uses the auth data to fetch your purchases
   useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
@@ -222,15 +227,15 @@ function Dashboard ({auth, SignOut}) {
   }
 }, [user]); // Trigger when the user logs in */
   
-/* useEffect(() => {
+useEffect(() => {
   // Try to sync immediately when the dashboard loads
   if (navigator.onLine) {
     console.log("Dashboard loaded & online. Forcing sync...");
     handleAutoSync(); 
   }
-}, []); */
+}, []);
 // Function to save a pending receipt locally
-/* const queueReceipt = (receiptData) => {
+const queueReceipt = (receiptData) => {
   // 1. Get the existing queue or create a new one
   const existingQueue = JSON.parse(localStorage.getItem('congreen_queue') || '[]');
   
@@ -245,7 +250,7 @@ function Dashboard ({auth, SignOut}) {
   // 3. Save back to local storage
   localStorage.setItem('congreen_queue', JSON.stringify([...existingQueue, newEntry]));
   console.log("Receipt queued for sync!");
-}; */
+}; 
   // 2. DERIVED DATA (useMemo): These can only be calculated AFTER the state above exists
   const currentSpend = useMemo(() => {
     //console.log("Calculating current spend from purchases:", purchases);
@@ -338,7 +343,7 @@ const categoryCodeMap = {
 };
 
 // A conceptual look at the drain logic
-/* const drainOutbox = async () => {
+const drainOutbox = async () => {
   const pending = await getPendingReceipts();
   console.log(`MomoCon Sync: Found ${pending.length} receipts to upload.`);
 
@@ -356,7 +361,7 @@ const categoryCodeMap = {
     }
   }
   refreshPendingCount(); // Update your UI badge to '0'
-}; */
+};
 
 // The helper function to get the code
 const getCategoryCode = (category) => categoryCodeMap[category] || '??';
