@@ -216,7 +216,7 @@ nav {
 
 .upload-options {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
   margin-top: 24px;
 
