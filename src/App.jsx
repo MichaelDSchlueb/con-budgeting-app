@@ -529,7 +529,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       capture="environment" 
       id="camera-upload"
       onChange={(e) => e.target.files?.[0] && handleReceiptSubmit(e.target.files[0])}
-      style={{ display: 'none' }} 
+      style={{ display: 'border: 1px solid #ccc;' }} 
     />
   </label>
 
@@ -541,7 +541,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       accept="image/*" 
       id="gallery-upload"
       onChange={(e) => e.target.files?.[0] && handleReceiptSubmit(e.target.files[0])}
-      style={{ display: 'none' }} 
+      style={{ display: 'border: 1px solid #ccc;' }} 
     />
   </label>
 </div>
