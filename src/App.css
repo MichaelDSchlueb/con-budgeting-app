@@ -219,6 +219,7 @@ nav {
   flex-direction: row;
   gap: 12px;
   margin-top: 24px;
+  text-align: center;
 
   label {
     display: flex;
