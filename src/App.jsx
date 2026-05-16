@@ -132,10 +132,19 @@ function LandingPage() {
     })
       .then(res => res.json())
       .then(rootData => {
+        console.log("----Debugging user login-----")
+
+        console.log("1. Raw response from API Gateway (rootData", rootData);
         const data = typeof rootData.body === 'string' ? JSON.parse(rootData.body) : rootData;
+        console.log("2. Decoded internal payload (data):", data);
+        console.log("3. Evaluated data.exists value:", data.exists);
+        console.log("4. Evaluated data.exists strict type:", typeof data.exists);
+
         if (data.exists === false) {
+          console.log("5. Target hit: Dropping into New User flow!")
           setIsNewUser(true);
         } else {
+          console.log("5. Target missed: Dropping into Dashboard flow. Profile:", data.profile);
           setProfileData(data.profile);
           setIsNewUser(false);
         }
