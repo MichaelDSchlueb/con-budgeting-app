@@ -169,7 +169,7 @@ function LandingPage() {
       console.log("User is not authenticated or missing profile data. Skipping profile check.");
       setIsCheckingProfile(false);
     }
-  }, [auth.isAuthenticated, auth.user]);
+  }, [auth.isAuthenticated, auth.user, auth.isLoading]);
 
   if (auth.isLoading) {
     return <div>Loading...</div>;
