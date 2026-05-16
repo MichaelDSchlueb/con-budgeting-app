@@ -164,6 +164,7 @@ function LandingPage() {
       .catch(err => {
         console.error("Error checking user profile:", err);
         setIsCheckingProfile(false);
+        setIsNewUser(false); // Default to existing user flow if there's an error, to avoid blocking access
       });
     } else {
       console.log("User is not authenticated or missing profile data. Skipping profile check.");
