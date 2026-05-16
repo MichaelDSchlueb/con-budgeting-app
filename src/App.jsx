@@ -138,6 +138,10 @@ function LandingPage() {
           setProfileData(data.profile);
           setIsNewUser(false);
         }
+      })
+      .catch(err => {
+        console.error("Error checking user profile:", err);
+        setIsCheckingProfile(false);
       });
     }
   }, [auth.isAuthenticated, auth.user]);
