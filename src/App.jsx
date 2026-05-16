@@ -12,7 +12,7 @@ import { saveToOfflineQueue, getPendingReceipts, removeFromQueue } from './asset
 import {useAuthenticator as useAmplifyAuth} from '@aws-amplify/ui-react';
 import { signOut } from 'aws-amplify/auth'
 
-function WelcomeOverlay() {
+function WelcomeOverlay({auth}) {
   const [showBadgeFields, setShowBadgeFields] = useState(false);
   const [showTravelFields, setShowTravelFields] = useState(false);
 
@@ -125,7 +125,7 @@ function LandingPage() {
   if (auth.isAuthenticated) {
     console.log("Full Auth Object:", auth);
   // Bypass the Dashboard component temporarily to see if the screen stays white
-  return <WelcomeOverlay />;
+  return <WelcomeOverlay auth={auth} />;
   //return <Dashboard auth={auth} SignOut={signOutRedirect} />;
   }
 
