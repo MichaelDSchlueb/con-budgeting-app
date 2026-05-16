@@ -106,6 +106,12 @@ function LandingPage() {
   const [profileData, setProfileData] = useState(null);
   const [isNewUser, setIsNewUser] = useState(false);
 
+  console.log("=== RAW AUTHENTICATION STATE ===");
+  console.log("Is Loading?", auth.isLoading);
+  console.log("Is Authenticated?", auth.isAuthenticated);
+  console.log("Raw User Object:", auth.user);
+  console.log("Profile Data inside User:", auth.user?.profile);
+
   const signOutRedirect = () => {
 
     localStorage.clear();
