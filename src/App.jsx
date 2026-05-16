@@ -12,6 +12,93 @@ import { saveToOfflineQueue, getPendingReceipts, removeFromQueue } from './asset
 import {useAuthenticator as useAmplifyAuth} from '@aws-amplify/ui-react';
 import { signOut } from 'aws-amplify/auth'
 
+function WelcomeOverlay() {
+  const [showBadgeFields, setShowBadgeFields] = useState(false);
+  const [showTravelFields, setShowTravelFields] = useState(false);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    console.log("User Preferences:", data);
+  }
+
+  return (
+    <div className="welcome-overlay">
+      <h1>Welcome to {auth.user['username']}</h1>
+      <h2>Let's personalize your experience!</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          What is your next con?
+          <input type="text" name="nextCon" />
+        </label>
+        <label>
+          Have you purchased your badge?
+          <select name="badgeStatus" onChange={(e) => setShowBadgeFields(e.target.value === 'yes')}>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </label>
+        <div id="badge-yes" style={{ display: showBadgeFields ? 'block' : 'none' }}>
+          <label>How much did it cost?
+            <input type="number" name="badgeCost" />
+          </label>
+          <label>
+            What type of badge is it?
+            <input type="text" name="badgeType" />
+          </label>
+          <label>
+            When did you buy it?
+            <input type="date" name="badgeDate" />
+          </label>
+        </div>
+        <label>
+          Are you local or traveling for this con?
+          <select name="localStatus" onChange={(e) => setShowTravelFields(e.target.value === 'traveling')}>
+            <option value="local">Local</option>
+            <option value="traveling">Traveling</option>
+          </select>
+          <div id="is-traveling" style={{ display: showTravelFields ? 'block' : 'none' }}>
+            <label>
+              How are you traveling?
+              <input type="text" name="travelMethod" />
+            </label>
+            <label>
+              How much did this cost?
+              <input type="number" name="travelCost" />
+            </label>
+            <label>
+              What company did you buy this from?
+              <input type="text" name="travelCompany" />
+            </label>
+            <label>
+              When did you purchase this?
+              <input type="date" name="travelDate" />
+            </label>
+            <label>
+              What form of accomodation did you book?
+              <input type="text" name="accomodationType" />
+            </label>
+            <label>
+              How much did this accomodation cost?
+              <input type="number" name="accomodationCost" />
+            </label>
+            <label>
+              What company did you book this accomodation with?
+              <input type="text" name="accomodationCompany" />
+            </label>
+            <label>
+              Name where you will be staying (hotel name, Airbnb host name, etc)
+              <input type="text" name="accomodationName" />
+            </label>
+          </div>
+        </label>
+        <button type="submit">Save Preferences</button>
+      </form>
+    </div>
+  )
+}
+
 function LandingPage() {
   const auth = useOIDCAuth();
   //console.log("Auth state in LandingPage:", auth);
@@ -38,7 +125,8 @@ function LandingPage() {
   if (auth.isAuthenticated) {
     console.log("Full Auth Object:", auth);
   // Bypass the Dashboard component temporarily to see if the screen stays white
-  return <Dashboard auth={auth} SignOut={signOutRedirect} />;
+  return <WelcomeOverlay />;
+  //return <Dashboard auth={auth} SignOut={signOutRedirect} />;
   }
 
   return (

@@ -71,7 +71,7 @@ text {
 #gallery-button, #scan-button {
   background-color: #A8E6CF;
   color: white;
-  border: none;
+  border: black solid 1px;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
