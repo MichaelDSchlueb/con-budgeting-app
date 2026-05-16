@@ -124,6 +124,9 @@ function LandingPage() {
   };
 
   useEffect(() => {
+
+    if (auth.isLoading) return;
+    
     if (auth.isAuthenticated && auth.user?.profile?.sub) {
       const userSub = auth.user.profile.sub;
 
