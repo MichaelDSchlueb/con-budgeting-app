@@ -126,9 +126,11 @@ function LandingPage() {
   useEffect(() => {
 
     if (auth.isLoading) return;
-    
+
     if (auth.isAuthenticated && auth.user?.profile?.sub) {
       const userSub = auth.user.profile.sub;
+
+      setIsCheckingProfile(true);
 
       fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user-profile', {
         method: 'POST',
@@ -163,6 +165,9 @@ function LandingPage() {
         console.error("Error checking user profile:", err);
         setIsCheckingProfile(false);
       });
+    } else {
+      console.log("User is not authenticated or missing profile data. Skipping profile check.");
+      setIsCheckingProfile(false);
     }
   }, [auth.isAuthenticated, auth.user]);
 
