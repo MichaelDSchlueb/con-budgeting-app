@@ -102,6 +102,9 @@ function WelcomeOverlay({auth}) {
 function LandingPage() {
   const auth = useOIDCAuth();
   //console.log("Auth state in LandingPage:", auth);
+  const [isCheckingProfile, setIsCheckingProfile] = useState(true);
+  const [profileData, setProfileData] = useState(null);
+  const [isNewUser, setIsNewUser] = useState(false);
 
   const signOutRedirect = () => {
 
@@ -114,6 +117,31 @@ function LandingPage() {
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
+  useEffect(() => {
+    if (auth.isAuthenticated && auth.user?.profile?.sub) {
+      const userSub = auth.user.profile.sub;
+
+      fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+        user_sub: auth.user.profile['sub']
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.exists === false) {
+          setIsNewUser(true); 
+        } else {
+          setProfileData(data.profile);
+          setIsNewUser(false);
+        }
+      });
+    }
+  }, [auth.isAuthenticated, auth.user]);
+
   if (auth.isLoading) {
     return <div>Loading...</div>;
   }
@@ -123,10 +151,14 @@ function LandingPage() {
   }
 
   if (auth.isAuthenticated) {
-    console.log("Full Auth Object:", auth);
+    if (isCheckingProfile) {
+      return <div>Verifying profile status...</div>
+    }
+    if (isNewUser) {
+      return <WelcomeOverlay auth={auth} />;
+    }
   // Bypass the Dashboard component temporarily to see if the screen stays white
-  return <WelcomeOverlay auth={auth} />;
-  //return <Dashboard auth={auth} SignOut={signOutRedirect} />;
+    return <Dashboard auth={auth} SignOut={signOutRedirect} />;
   }
 
   return (
