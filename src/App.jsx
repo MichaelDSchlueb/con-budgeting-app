@@ -131,13 +131,15 @@ function LandingPage() {
       })
     })
       .then(res => res.json())
-      .then(data => {
+      .then(rootData => {
+        const data = typeof rootData.body === 'string' ? JSON.parse(rootData.body) : rootData;
         if (data.exists === false) {
-          setIsNewUser(true); 
+          setIsNewUser(true);
         } else {
           setProfileData(data.profile);
           setIsNewUser(false);
         }
+        setIsCheckingProfile(false);
       })
       .catch(err => {
         console.error("Error checking user profile:", err);
