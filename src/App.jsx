@@ -17,6 +17,8 @@ import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
 function WelcomeOverlay({auth}) {
   const [showBadgeFields, setShowBadgeFields] = useState(false);
   const [showTravelFields, setShowTravelFields] = useState(false);
+  const [showTravelCostFields, setShowTravelCostFields] = useState(false);
+  const [showAccomodationCostFields, setShowAccomodationCostFields] = useState(false);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -32,7 +34,7 @@ function WelcomeOverlay({auth}) {
     
     console.log("Final payload to send to API:", finalPayload);
     
-    fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
+    /*fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -40,7 +42,7 @@ function WelcomeOverlay({auth}) {
       body: JSON.stringify({
         finalPayload
       })
-    });
+    }); */
   }
 
   if (!auth || auth.isLoading) {
@@ -93,32 +95,46 @@ function WelcomeOverlay({auth}) {
               <input type="text" required={showTravelFields} name="travelMethod" />
             </label>
             <label>
-              <p>How much did this cost?</p>
-              <input type="number" required={showTravelFields} name="travelCost" />
+              <p>Have you purchased your travel arrangements?</p>
+              <select name="travelPurchased" onChange={(e) => setShowTravelCostFields(e.target.value === 'yes')}>
+                <option value="yes">Yes</option>
+                <option value="no" selected>No</option>
+              </select>
+                <div id="has-purchased-travel" style={{ display: showTravelCostFields ? 'block' : 'none' }}>
+                  <label>
+                    <p>How much did this cost?</p>
+                    <input type="number" required={showTravelCostFields} name="travelCost" />
+                  </label>
+                  <label>
+                    <p>What company did you buy this from?</p>
+                    <input type="text" required={showTravelCostFields} name="travelCompany" />
+                  </label>
+                  <label>
+                    <p>When did you purchase this?</p>
+                    <input type="date" required={showTravelCostFields} name="travelDate" />
+                  </label>
+                </div>
             </label>
             <label>
-              <p>What company did you buy this from?</p>
-              <input type="text" required={showTravelFields} name="travelCompany" />
-            </label>
-            <label>
-              <p>When did you purchase this?</p>
-              <input type="date" required={showTravelFields} name="travelDate" />
-            </label>
-            <label>
-              <p>What form of accomodation did you book?</p>
-              <input type="text" required={showTravelFields} name="accomodationType" />
-            </label>
-            <label>
-              <p>How much did this accomodation cost?</p>
-              <input type="number" required={showTravelFields} name="accomodationCost" />
-            </label>
-            <label>
-              <p>What company did you book this accomodation with?</p>
-              <input type="text" required={showTravelFields} name="accomodationCompany" />
-            </label>
-            <label>
-              <p>Name where you will be staying (hotel name, Airbnb host name, etc)</p>
-              <input type="text" required={showTravelFields} name="accomodationName" />
+              <p>Have you purchased your accomodation?</p>
+              <select name="accomodationPurchased" onChange={(e) => setShowAccomodationCostFields(e.target.value === 'yes')}>
+                <option value="yes">Yes</option>
+                <option value="no" selected>No</option>
+              </select>
+              <div id="has-purchased-accomodation" style={{ display: showAccomodationCostFields ? 'block' : 'none' }}>
+                <label>
+                  <p>How much did this cost?</p>
+                  <input type="number" required={showAccomodationCostFields} name="accomodationCost" />
+                </label>
+                <label>
+                  <p>What company did you book this with?</p>
+                  <input type="text" required={showAccomodationCostFields} name="accomodationCompany" />
+                </label>
+                <label>
+                  <p>When did you book this?</p>
+                  <input type="date" required={showAccomodationCostFields} name="accomodationDate" />
+                </label>
+              </div>
             </label>
           </div>
         </label>
