@@ -6,6 +6,7 @@ import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthProvider } from "react-oidc-context";
+import { CookieStorage } from 'aws-amplify/utils';
 
 // main.jsx
 const cognitoAuthConfig = {
