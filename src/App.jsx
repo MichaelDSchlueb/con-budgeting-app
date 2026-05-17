@@ -34,7 +34,7 @@ function WelcomeOverlay({auth}) {
     
     console.log("Final payload to send to API:", finalPayload);
     
-    /*fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
+    fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ function WelcomeOverlay({auth}) {
       body: JSON.stringify({
         finalPayload
       })
-    }); */
+    });
   }
 
   if (!auth || auth.isLoading) {
