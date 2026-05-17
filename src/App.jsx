@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, use } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -767,20 +767,59 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 }
 
 export default function App() {
-  const checkUser = async () => {
-  try {
-    const session = await fetchAuthSession();
-    if (!session.tokens) throw new Error("No session");
-  } catch (err) {
-    console.log("User not authenticated, redirecting to login...");
+  // 1. Establish an authentication tracking state
+  const [auth, setAuth] = useState({
+    user: null,
+    isLoading: true
+  });
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        // Fetch the active session credentials
+        const session = await fetchAuthSession();
+        
+        if (!session.tokens) {
+          throw new Error("No session tokens found");
+        }
+
+        // Optional: Grab the user data if you need to pass it down to your context
+        // const user = await getCurrentUser(); 
+
+        console.log("Session verified successfully!");
+        setAuth({
+          user: session, // Or your custom auth user wrapper
+          isLoading: false
+        });
+
+      } catch (err) {
+        console.log("User not authenticated, redirecting to login...");
+        setAuth({
+          user: null,
+          isLoading: false
+        });
+      }
+    };
+
+    // 2. 🎯 Execute the check immediately on mount!
+    checkUser();
+  }, []);
+
+  // 3. 🎯 THE SHIELD: Hold the browser until the async storage check completes.
+  // This stops the dashboard from loading prematurely and crashing.
+  if (auth.isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <h3>Synchronizing application session preferences...</h3>
+      </div>
+    );
   }
-}
+
   return (
     <BrowserRouter basename="/">
       <Routes>
-        {/*{console.log("Defining Routes...")}*/}
-        { <Route path="/" element={<LandingPage />} /> }
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<LandingPage auth={auth} />} />
+        <Route path="/dashboard" element={<Dashboard auth={auth} />} />
       </Routes>
     </BrowserRouter>
   );
