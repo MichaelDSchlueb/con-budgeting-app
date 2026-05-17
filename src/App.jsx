@@ -11,9 +11,8 @@ import { useAuth as useOIDCAuth } from "react-oidc-context";
 import { saveToOfflineQueue, getPendingReceipts, removeFromQueue } from './assets/utils/db';
 import {useAuthenticator as useAmplifyAuth} from '@aws-amplify/ui-react';
 import { signOut } from 'aws-amplify/auth'
-import LandingPage from './LandingPage';
-import Dashboard from './Dashboard';
 import { Hub } from 'aws-amplify/utils';
+import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
 
 function WelcomeOverlay({auth}) {
   const [showBadgeFields, setShowBadgeFields] = useState(false);
