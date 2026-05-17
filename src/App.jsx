@@ -39,6 +39,7 @@ function WelcomeOverlay({auth}) {
       },
       body: JSON.stringify({
         'user_sub': auth.user.profile['sub'],
+        'user_id': auth.user.profile['cognito:username'],
         'data': data
       })
     });
