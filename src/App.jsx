@@ -418,7 +418,7 @@ function Dashboard ({auth, SignOut}) {
   if (user) {
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
-    fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
+    fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(res => res.json())
       .then(data => {
         //console.log("RAW API DATA after call 1", data);
@@ -529,9 +529,9 @@ useEffect(() => {
     setNextCon(data['0'].next_con);
   })
 });
-
+console.logoutUri(nextCon)
 useEffect(() => {
-  fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=MomoCon-2026`)
+  fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(response => response.json())
       .then(data => {
       //console.log("RAW API DATA after call 2", data)
