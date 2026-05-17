@@ -412,6 +412,7 @@ function Dashboard ({auth, SignOut}) {
       alert("Receipt saved locally! It will sync when you're back online.");
     }
   }; 
+  console.log(nextCon)
   // Ensure your Dashboard uses the auth data to fetch your purchases
   useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
