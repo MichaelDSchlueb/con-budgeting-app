@@ -31,6 +31,9 @@ const amplifyconfig = {
           "responseType": "code"
         }
       }
+    },
+    Storage: {
+      localStorage: window.sessionStorage
     }
   }
 };
