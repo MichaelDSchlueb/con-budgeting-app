@@ -18,20 +18,30 @@ const cognitoAuthConfig = {
 
 // 2. Use the EXACT same name in the configure block
 const amplifyconfig = {
-  "Auth": {
-    "Cognito": {
-      "userPoolId": "us-east-2_5KrMfc4NY", 
-      "userPoolClientId": "5d32h4mt57n9ljti8d8fhkcflt",
-      "loginWith": {
-        "oauth": {
-          "domain": "us-east-25krmfc4ny.auth.us-east-2.amazoncognito.com",
-          "scopes": ["openid", "email", "profile", "aws.cognito.signin.user.admin"],
-          "redirectSignIn": ["https://main.dymkwrcw8goz2.amplifyapp.com/dashboard"],
-          "redirectSignOut": ["https://main.dymkwrcw8goz2.amplifyapp.com/"],
-          "responseType": "code"
+  Auth: {
+    Cognito: {
+      userPoolId: 'us-east-2_XXXXXX',
+      userPoolClientId: 'XXXXXX',
+      loginWith: {
+        oauth: {
+          domain: 'your-cognito-domain.auth.us-east-2.amazoncognito.com',
+          scopes: ['openid', 'email', 'profile', 'aws.cognito.signin.user.admin'],
+          redirectSignIn: ['https://main.dymkwrcw8goz2.amplifyapp.com/'],
+          redirectSignOut: ['https://main.dymkwrcw8goz2.amplifyapp.com/'],
+          responseType: 'code'
         }
       }
-    },
+    }
+  },
+  // 🎯 THE ULTIMATE OVERRIDE: Force Amplify to use secure cookies instead of localStorage.
+  // This prevents Chrome from wiping the nonces on a page refresh!
+  Storage: {
+    Auth: {
+      storage: new CookieStorage({
+        secure: true, // Requires HTTPS (Perfect for Amplify)
+        sameSite: 'lax' // Allows stable state passing across Cognito redirects
+      })
+    }
   }
 };
 
