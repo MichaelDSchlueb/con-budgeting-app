@@ -20,6 +20,8 @@ function WelcomeOverlay({auth}) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+    console.log(auth)
+    /*
     fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
       headers: {
@@ -30,6 +32,7 @@ function WelcomeOverlay({auth}) {
         'data':JSON.stringify(data),
       }
     });
+    */
   }
 
   return (
@@ -168,7 +171,6 @@ function LandingPage() {
 
         if (data.exists === false) {
           console.log("5. Target hit: Dropping into New User flow!")
-          console.log("New user profile data:", data.profile);
           setIsNewUser(true);
         } else {
           console.log("5. Target missed: Dropping into Dashboard flow. Profile:", data.profile);
