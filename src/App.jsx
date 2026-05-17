@@ -20,7 +20,6 @@ function WelcomeOverlay({auth}) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    console.log(auth)
     /*
     fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
@@ -37,7 +36,7 @@ function WelcomeOverlay({auth}) {
 
   return (
     <div className="welcome-overlay">
-      <h1>Welcome to {auth.user['username']}</h1>
+      <h1>Welcome to {auth.user.profile['cognito:username']}</h1>
       <h2>Let's personalize your experience!</h2>
       <form onSubmit={handleSubmit}>
         <label>
