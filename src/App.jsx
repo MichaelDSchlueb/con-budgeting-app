@@ -20,7 +20,13 @@ function WelcomeOverlay({auth}) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    console.log("Collected form data:", data);
+    const finalPayload = {
+      user_sub: auth.user.profile['sub'],
+      user_id: auth.user.profile['cognito:username'],
+      data: data
+    };
+    console.log("Final payload to send to API:", finalPayload);
+    }
     /*
     fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
