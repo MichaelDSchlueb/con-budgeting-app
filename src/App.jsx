@@ -146,6 +146,10 @@ function LandingPage() {
   console.log("Raw User Object:", auth.user);
   console.log("Profile Data inside User:", auth.user?.profile);
 
+  const username = auth?.user?.profile?.['cognito:username'];
+
+  console.log("Dashboard detected username:", username);
+
   const signOutRedirect = () => {
 
     localStorage.clear();
@@ -161,7 +165,7 @@ function LandingPage() {
 
     if (auth.isLoading) return;
 
-    if (auth.isAuthenticated && auth.user?.profile?.sub) {
+    if (auth.user && auth.user.profile?.sub) {
       const userSub = auth.user.profile.sub;
 
       setIsCheckingProfile(true);
@@ -204,7 +208,7 @@ function LandingPage() {
       console.log("User is not authenticated or missing profile data. Skipping profile check.");
       setIsCheckingProfile(false);
     }
-  }, [auth.isAuthenticated, auth.user, auth.isLoading]);
+  }, [auth.user, auth.isLoading]);
 
   if (auth.isLoading) {
     return <div>Loading...</div>;
@@ -214,7 +218,7 @@ function LandingPage() {
     return <div>Encountering error... {auth.error.message}</div>;
   }
 
-  if (auth.isAuthenticated) {
+  if (auth.user) {
     if (isCheckingProfile) {
       return <div>Verifying profile status...</div>
     }
