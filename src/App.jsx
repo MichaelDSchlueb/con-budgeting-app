@@ -37,11 +37,10 @@ function WelcomeOverlay({auth}) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: { JSON.stringify({
+      body: JSON.stringify({
         'user_sub': auth.user.profile['sub'],
         'data': data
       })
-      }
     });
   }
 
