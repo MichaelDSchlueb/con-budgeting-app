@@ -773,16 +773,21 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Define the session checker logic
     const checkUser = async () => {
       try {
         const session = await fetchAuthSession();
         if (session.tokens) {
-          console.log("Active token session found.");
-          setUser(session);
-        } else {
-          setUser(null);
-        }
+          const currentUser = await getCurrentUser();
+          
+          // 🎯 FIX 2: Wrapped in a 'user' key so downstream components can read 
+          // propName.user.profile['cognito:username'] without changing any logic!
+          setUser({ 
+            user: {
+              ...session,
+              profile: currentUser.signInDetails || currentUser
+            }
+          });
+        } 
       } catch (err) {
         console.log("No matching session found in storage.");
         setUser(null);
@@ -791,35 +796,8 @@ export default function App() {
       }
     };
 
-    // 2. 🎯 THE HUB LISTENER: Catch auth events before they drop
-    const unsubscribe = Hub.listen('auth', ({ payload }) => {
-      const { event, data } = payload;
-      console.log(`Amplify Auth Event Intercepted: ${event}`);
-      
-      switch (event) {
-        case 'signedIn':
-        case 'tokenRefresh':
-          checkUser();
-          break;
-        case 'signedOut':
-          setUser(null);
-          setIsLoading(false);
-          break;
-        case 'customOAuthState':
-        case 'signInWithRedirect':
-          // Hold the loading screen while OAuth states resolve
-          setIsLoading(true);
-          break;
-        default:
-          break;
-      }
-    });
-
-    // Run the initial execution check on mount
+    // 🎯 FIX 1: Match the name of the function you defined above!
     checkUser();
-
-    // Clean up the event listener when the component unmounts
-    return () => unsubscribe();
   }, []);
 
   // 3. THE INFRASTRUCTURE GATE: Hold the DOM stable while nonces align
@@ -835,12 +813,13 @@ export default function App() {
   return (
     <BrowserRouter basename="/">
       <Routes>
-        <Route path="/" element={<LandingPage user={user} />} />
+        {/* Pass the unified wrapper down as the 'auth' prop your Dashboard expects */}
+        <Route path="/" element={<LandingPage auth={user} />} />
         
         {/* Guarded Dashboard Route */}
         <Route 
           path="/dashboard" 
-          element={user ? <Dashboard user={user} /> : <Navigate to="/" replace />} 
+          element={user ? <Dashboard auth={user} /> : <Navigate to="/" replace />} 
         />
       </Routes>
     </BrowserRouter>
