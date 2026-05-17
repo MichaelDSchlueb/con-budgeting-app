@@ -17,17 +17,19 @@ function WelcomeOverlay({auth}) {
   const [showTravelFields, setShowTravelFields] = useState(false);
 
   function handleSubmit(event) {
-    localStorage.clear();
-    sessionStorage.clear();
     event.preventDefault();
+    
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+    
     const finalPayload = {
       user_sub: auth.user.profile['sub'],
       user_id: auth.user.profile['cognito:username'],
       data
     };
+    
     console.log("Final payload to send to API:", finalPayload);
+    
     fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
       headers: {
@@ -40,9 +42,17 @@ function WelcomeOverlay({auth}) {
     });
   }
 
+  if (!auth || auth.isLoading) {
+    return (
+      <div className="loading-spinner">
+        <p>Synchronizing application session preferences...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="welcome-overlay">
-      <h1>Welcome {auth.user.profile['cognito:username']}</h1>
+      <h1>Welcome {auth.user.profile['cognito:username'] || 'back'}</h1>
       <h3>Let's personalize your experience!</h3>
       <form onSubmit={handleSubmit}>
         <label>
