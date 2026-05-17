@@ -17,6 +17,8 @@ function WelcomeOverlay({auth}) {
   const [showTravelFields, setShowTravelFields] = useState(false);
 
   function handleSubmit(event) {
+    localStorage.clear();
+    sessionStorage.clear();
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
