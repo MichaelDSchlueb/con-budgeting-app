@@ -20,6 +20,7 @@ function WelcomeOverlay({auth}) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+    console.log("Collected form data:", data);
     /*
     fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
