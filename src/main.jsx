@@ -32,9 +32,6 @@ const amplifyconfig = {
         }
       }
     },
-    Storage: {
-      localStorage: window.sessionStorage
-    }
   }
 };
 
