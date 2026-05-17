@@ -168,6 +168,8 @@ function LandingPage() {
     if (auth.user && auth.user.profile?.sub) {
       const userSub = auth.user.profile.sub;
 
+      console.log(auth.user.profile);
+
       setIsCheckingProfile(true);
 
       fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user-profile', {
