@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, use } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -767,50 +767,65 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 }
 
 export default function App() {
-  // 1. Establish an authentication tracking state
-  const [auth, setAuth] = useState({
-    user: null,
-    isLoading: true
-  });
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // 1. Define the session checker logic
     const checkUser = async () => {
       try {
-        // Fetch the active session credentials
         const session = await fetchAuthSession();
-        
-        if (!session.tokens) {
-          throw new Error("No session tokens found");
+        if (session.tokens) {
+          console.log("Active token session found.");
+          setUser(session);
+        } else {
+          setUser(null);
         }
-
-        // Optional: Grab the user data if you need to pass it down to your context
-        // const user = await getCurrentUser(); 
-
-        console.log("Session verified successfully!");
-        setAuth({
-          user: session, // Or your custom auth user wrapper
-          isLoading: false
-        });
-
       } catch (err) {
-        console.log("User not authenticated, redirecting to login...");
-        setAuth({
-          user: null,
-          isLoading: false
-        });
+        console.log("No matching session found in storage.");
+        setUser(null);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    // 2. 🎯 Execute the check immediately on mount!
+    // 2. 🎯 THE HUB LISTENER: Catch auth events before they drop
+    const unsubscribe = Hub.listen('auth', ({ payload }) => {
+      const { event, data } = payload;
+      console.log(`Amplify Auth Event Intercepted: ${event}`);
+      
+      switch (event) {
+        case 'signedIn':
+        case 'tokenRefresh':
+          checkUser();
+          break;
+        case 'signedOut':
+          setUser(null);
+          setIsLoading(false);
+          break;
+        case 'customOAuthState':
+        case 'signInWithRedirect':
+          // Hold the loading screen while OAuth states resolve
+          setIsLoading(true);
+          break;
+        default:
+          break;
+      }
+    });
+
+    // Run the initial execution check on mount
     checkUser();
+
+    // Clean up the event listener when the component unmounts
+    return () => unsubscribe();
   }, []);
 
-  // 3. 🎯 THE SHIELD: Hold the browser until the async storage check completes.
-  // This stops the dashboard from loading prematurely and crashing.
-  if (auth.isLoading) {
+  // 3. THE INFRASTRUCTURE GATE: Hold the DOM stable while nonces align
+  if (isLoading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
         <h3>Synchronizing application session preferences...</h3>
+        <p style={{ color: '#666', fontSize: '14px' }}>Securing credential tokens</p>
       </div>
     );
   }
@@ -818,8 +833,13 @@ export default function App() {
   return (
     <BrowserRouter basename="/">
       <Routes>
-        <Route path="/" element={<LandingPage auth={auth} />} />
-        <Route path="/dashboard" element={<Dashboard auth={auth} />} />
+        <Route path="/" element={<LandingPage user={user} />} />
+        
+        {/* Guarded Dashboard Route */}
+        <Route 
+          path="/dashboard" 
+          element={user ? <Dashboard user={user} /> : <Navigate to="/" replace />} 
+        />
       </Routes>
     </BrowserRouter>
   );
