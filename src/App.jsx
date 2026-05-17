@@ -20,7 +20,16 @@ function WelcomeOverlay({auth}) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    console.log("User Preferences:", data);
+    fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: {
+        'user_sub': auth.user.profile['sub'],
+        'data':JSON.stringify(data),
+      }
+    });
   }
 
   return (
@@ -29,69 +38,75 @@ function WelcomeOverlay({auth}) {
       <h2>Let's personalize your experience!</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          What is your next con?
-          <input type="text" name="nextCon" />
+          <p>What is your next con?</p>
+          <input type="text" required name="nextCon" />
         </label>
         <label>
-          Have you purchased your badge?
+          <p>Have you purchased your badge?</p>
           <select name="badgeStatus" onChange={(e) => setShowBadgeFields(e.target.value === 'yes')}>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
         </label>
         <div id="badge-yes" style={{ display: showBadgeFields ? 'block' : 'none' }}>
-          <label>How much did it cost?
-            <input type="number" name="badgeCost" />
+          <label>
+            <p>How much did it cost?</p>
+            <input type="number" required name="badgeCost" />
           </label>
           <label>
-            What type of badge is it?
-            <input type="text" name="badgeType" />
+            <p>What type of badge is it?</p>
+            <input type="text" required name="badgeType" />
           </label>
           <label>
-            When did you buy it?
-            <input type="date" name="badgeDate" />
+            <p>When did you buy it?</p>
+            <input type="date" required name="badgeDate" />
           </label>
         </div>
         <label>
-          Are you local or traveling for this con?
+          <p>Are you local or traveling for this con?</p>
           <select name="localStatus" onChange={(e) => setShowTravelFields(e.target.value === 'traveling')}>
             <option value="local">Local</option>
             <option value="traveling">Traveling</option>
           </select>
           <div id="is-traveling" style={{ display: showTravelFields ? 'block' : 'none' }}>
             <label>
-              How are you traveling?
-              <input type="text" name="travelMethod" />
+              <p>How are you traveling?</p>
+              <input type="text" required name="travelMethod" />
             </label>
             <label>
-              How much did this cost?
-              <input type="number" name="travelCost" />
+              <p>How much did this cost?</p>
+              <input type="number" required name="travelCost" />
             </label>
             <label>
-              What company did you buy this from?
-              <input type="text" name="travelCompany" />
+              <p>What company did you buy this from?</p>
+              <input type="text" required name="travelCompany" />
             </label>
             <label>
-              When did you purchase this?
-              <input type="date" name="travelDate" />
+              <p>When did you purchase this?</p>
+              <input type="date" required name="travelDate" />
             </label>
             <label>
-              What form of accomodation did you book?
-              <input type="text" name="accomodationType" />
+              <p>What form of accomodation did you book?</p>
+              <input type="text" required name="accomodationType" />
             </label>
             <label>
-              How much did this accomodation cost?
-              <input type="number" name="accomodationCost" />
+              <p>How much did this accomodation cost?</p>
+              <input type="number" required name="accomodationCost" />
             </label>
             <label>
-              What company did you book this accomodation with?
-              <input type="text" name="accomodationCompany" />
+              <p>What company did you book this accomodation with?</p>
+              <input type="text" required name="accomodationCompany" />
             </label>
             <label>
-              Name where you will be staying (hotel name, Airbnb host name, etc)
-              <input type="text" name="accomodationName" />
+              <p>Name where you will be staying (hotel name, Airbnb host name, etc)</p>
+              <input type="text" required name="accomodationName" />
             </label>
+            <label></label>
           </div>
+        </label>
+        <label>
+          <p>How much are you planning to spend on this con?</p>
+          <input type="number" required name="plannedSpend" />
         </label>
         <button type="submit">Save Preferences</button>
       </form>
@@ -153,6 +168,7 @@ function LandingPage() {
 
         if (data.exists === false) {
           console.log("5. Target hit: Dropping into New User flow!")
+          console.log("New user profile data:", data.profile);
           setIsNewUser(true);
         } else {
           console.log("5. Target missed: Dropping into Dashboard flow. Profile:", data.profile);
