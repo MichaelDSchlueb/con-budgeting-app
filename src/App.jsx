@@ -139,13 +139,13 @@ function LandingPage() {
   const [isCheckingProfile, setIsCheckingProfile] = useState(true);
   const [profileData, setProfileData] = useState(null);
   const [isNewUser, setIsNewUser] = useState(false);
-
+/*
   console.log("=== RAW AUTHENTICATION STATE ===");
   console.log("Is Loading?", auth.isLoading);
   console.log("Is Authenticated?", auth.isAuthenticated);
   console.log("Raw User Object:", auth.user);
   console.log("Profile Data inside User:", auth.user?.profile);
-
+*/
   const username = auth?.user?.profile?.['cognito:username'];
 
   console.log("Dashboard detected username:", username);
