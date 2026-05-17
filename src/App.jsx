@@ -168,7 +168,7 @@ function LandingPage() {
     if (auth.user && auth.user.profile?.sub) {
       const userSub = auth.user.profile.sub;
 
-      console.log(auth.user.profile);
+      console.log(auth.user.profile['sub']);
 
       setIsCheckingProfile(true);
 
