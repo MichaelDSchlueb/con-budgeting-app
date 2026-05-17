@@ -23,10 +23,9 @@ function WelcomeOverlay({auth}) {
     const finalPayload = {
       user_sub: auth.user.profile['sub'],
       user_id: auth.user.profile['cognito:username'],
-      data: data
+      data
     };
     console.log("Final payload to send to API:", finalPayload);
-    }
     /*
     fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
       method: 'POST',
