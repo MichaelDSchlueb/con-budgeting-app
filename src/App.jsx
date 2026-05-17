@@ -529,7 +529,7 @@ useEffect(() => {
     setNextCon(data['0'].next_con);
   })
 });
-console.logoutUri(nextCon)
+
 useEffect(() => {
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(response => response.json())
