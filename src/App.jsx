@@ -36,8 +36,8 @@ function WelcomeOverlay({auth}) {
 
   return (
     <div className="welcome-overlay">
-      <h1>Welcome to {auth.user.profile['cognito:username']}</h1>
-      <h2>Let's personalize your experience!</h2>
+      <h1>Welcome {auth.user.profile['cognito:username']}</h1>
+      <h3>Let's personalize your experience!</h3>
       <form onSubmit={handleSubmit}>
         <label>
           <p>What is your next con?</p>
@@ -47,63 +47,62 @@ function WelcomeOverlay({auth}) {
           <p>Have you purchased your badge?</p>
           <select name="badgeStatus" onChange={(e) => setShowBadgeFields(e.target.value === 'yes')}>
             <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="no" selected>No</option>
           </select>
         </label>
         <div id="badge-yes" style={{ display: showBadgeFields ? 'block' : 'none' }}>
           <label>
             <p>How much did it cost?</p>
-            <input type="number" required name="badgeCost" />
+            <input type="number" required={showBadgeFields} name="badgeCost" />
           </label>
           <label>
             <p>What type of badge is it?</p>
-            <input type="text" required name="badgeType" />
+            <input type="text" required={showBadgeFields} name="badgeType" />
           </label>
           <label>
             <p>When did you buy it?</p>
-            <input type="date" required name="badgeDate" />
+            <input type="date" required={showBadgeFields} name="badgeDate" />
           </label>
         </div>
         <label>
           <p>Are you local or traveling for this con?</p>
           <select name="localStatus" onChange={(e) => setShowTravelFields(e.target.value === 'traveling')}>
-            <option value="local">Local</option>
+            <option value="local" selected>Local</option>
             <option value="traveling">Traveling</option>
           </select>
           <div id="is-traveling" style={{ display: showTravelFields ? 'block' : 'none' }}>
             <label>
               <p>How are you traveling?</p>
-              <input type="text" required name="travelMethod" />
+              <input type="text" required={showTravelFields} name="travelMethod" />
             </label>
             <label>
               <p>How much did this cost?</p>
-              <input type="number" required name="travelCost" />
+              <input type="number" required={showTravelFields} name="travelCost" />
             </label>
             <label>
               <p>What company did you buy this from?</p>
-              <input type="text" required name="travelCompany" />
+              <input type="text" required={showTravelFields} name="travelCompany" />
             </label>
             <label>
               <p>When did you purchase this?</p>
-              <input type="date" required name="travelDate" />
+              <input type="date" required={showTravelFields} name="travelDate" />
             </label>
             <label>
               <p>What form of accomodation did you book?</p>
-              <input type="text" required name="accomodationType" />
+              <input type="text" required={showTravelFields} name="accomodationType" />
             </label>
             <label>
               <p>How much did this accomodation cost?</p>
-              <input type="number" required name="accomodationCost" />
+              <input type="number" required={showTravelFields} name="accomodationCost" />
             </label>
             <label>
               <p>What company did you book this accomodation with?</p>
-              <input type="text" required name="accomodationCompany" />
+              <input type="text" required={showTravelFields} name="accomodationCompany" />
             </label>
             <label>
               <p>Name where you will be staying (hotel name, Airbnb host name, etc)</p>
-              <input type="text" required name="accomodationName" />
+              <input type="text" required={showTravelFields} name="accomodationName" />
             </label>
-            <label></label>
           </div>
         </label>
         <label>
