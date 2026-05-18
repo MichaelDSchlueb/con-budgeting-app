@@ -418,7 +418,7 @@ function Dashboard ({auth, SignOut}) {
   // Use 'user' from your useAuthenticator hook instead
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
-    if (!conName) {
+    if (!nextCon) {
       return; // Don't fetch until we know the con name
     }
     const fetchPurchases = async () => {
