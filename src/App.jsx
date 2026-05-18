@@ -15,6 +15,7 @@ import { Hub } from 'aws-amplify/utils';
 import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
 
 function WelcomeOverlay({auth}) {
+  const navigate = useNavigate();
   const [showBadgeFields, setShowBadgeFields] = useState(false);
   const [showTravelFields, setShowTravelFields] = useState(false);
   const [showTravelCostFields, setShowTravelCostFields] = useState(false);
@@ -31,7 +32,7 @@ function WelcomeOverlay({auth}) {
     window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     
     const formData = new FormData(event.target);
@@ -45,15 +46,25 @@ function WelcomeOverlay({auth}) {
     
     console.log("Final payload to send to API:", finalPayload);
     
-    fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        finalPayload
-      })
-    });
+    try {
+      const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          finalPayload
+        })
+      });
+      if (response.ok) {
+        console.log("User preferences saved successfully! Redirecting to dashboard...");
+        navigate('/dashboard', { replace: true }); // Adjust this path if your dashboard route is different
+      } else {
+        console.error("Failed to save preferences. Server responded with:", response.status);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   }
 
   if (!auth || auth.isLoading) {
