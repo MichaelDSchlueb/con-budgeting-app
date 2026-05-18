@@ -416,23 +416,16 @@ function Dashboard ({auth, SignOut}) {
   // Ensure your Dashboard uses the auth data to fetch your purchases
   useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
+  if (user) {
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
-    if (!nextCon) {
-      return; // Don't fetch until we know the con name
-    }
-    const fetchPurchases = async () => {
-      try {
-        const response = await fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`);
-        const data = await response.json();
+    fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
+      .then(res => res.json())
+      .then(data => {
+        //console.log("RAW API DATA after call 1", data);
         setPurchases(data);
-        setLoading(false);
-    } catch (error) {
-      console.error("Error fetching purchases:", error);
-      setLoading(false);
-    }
-  };
-  fetchPurchases();
+      });
+  }
 }, [user]); // Trigger when the user logs in */
   
 useEffect(() => {
@@ -539,7 +532,6 @@ useEffect(() => {
 });
 
 useEffect(() => {
-  if (!nextCon) return; // Don't fetch purchases until we know the con name
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(response => response.json())
       .then(data => {
