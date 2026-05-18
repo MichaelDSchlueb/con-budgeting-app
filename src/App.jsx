@@ -20,6 +20,17 @@ function WelcomeOverlay({auth}) {
   const [showTravelCostFields, setShowTravelCostFields] = useState(false);
   const [showAccomodationCostFields, setShowAccomodationCostFields] = useState(false);
 
+  // 🎯 Place this right after your frontend successfully processes the login/code token exchange
+  if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
+    console.log("Authentication parameters detected. Cleaning URL history track...");
+    
+    // Creates a completely clean URL path by stripping out the query parameters
+    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    
+    // Updates the address bar silently without triggering a page reload
+    window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     
