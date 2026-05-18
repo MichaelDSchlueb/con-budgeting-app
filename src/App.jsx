@@ -420,6 +420,7 @@ function Dashboard ({auth, SignOut}) {
     if (!nextCon) return; // Don't fetch purchases until we know the con name
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
+    print("Ready to get purchases for con:", nextCon);
     fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(res => res.json())
       .then(data => {
@@ -534,6 +535,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (!nextCon) return; // Don't fetch purchases until we know the con name
+  console.log("Fetching purchases for con:", nextCon);
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(response => response.json())
       .then(data => {
