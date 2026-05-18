@@ -416,7 +416,7 @@ function Dashboard ({auth, SignOut}) {
   // Ensure your Dashboard uses the auth data to fetch your purchases
   useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
-  if (user) {
+  if (user && nextCon) {
     // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
     // but for a simple UI check, 'user' is enough to trigger the fetch
     fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
@@ -532,6 +532,7 @@ useEffect(() => {
 });
 
 useEffect(() => {
+  if (!nextCon) return; // Don't fetch purchases until we know the con name
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(response => response.json())
       .then(data => {
