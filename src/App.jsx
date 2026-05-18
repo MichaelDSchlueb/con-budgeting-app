@@ -416,17 +416,16 @@ function Dashboard ({auth, SignOut}) {
   // Ensure your Dashboard uses the auth data to fetch your purchases
   useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
-  if (user) {
-    // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
-    // but for a simple UI check, 'user' is enough to trigger the fetch
+    if (!user || !nextCon) return; // Wait until we have the user and con info
+      // Note: In Amplify v6, tokens are fetched via fetchAuthSession()
+      // but for a simple UI check, 'user' is enough to trigger the fetch
     fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(res => res.json())
       .then(data => {
         //console.log("RAW API DATA after call 1", data);
         setPurchases(data);
-      });
-  }
-}, [user]); // Trigger when the user logs in */
+        });
+}, [user, nextCon]); // Trigger when the user logs in */
   
 useEffect(() => {
   // Try to sync immediately when the dashboard loads
@@ -523,15 +522,17 @@ const [purchases, setPurchases] = useState([
 */
 
 useEffect(() => {
+  if (!profile?.sub) return;
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/user_id?user_sub=${profile['sub']}`)
   .then(response => response.json())
   .then(data => {
     setTotalBudget(data['0'].budget); // Adjust based on actual API response structure
     setNextCon(data['0'].next_con);
   })
-});
+}, [profile.sub]);
 
 useEffect(() => {
+  if (!user || !nextCon) return; // Wait until we have the user and con info
   fetch(`https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases?user_stub=${profile['sub']}&con_name=${nextCon}`)
       .then(response => response.json())
       .then(data => {
