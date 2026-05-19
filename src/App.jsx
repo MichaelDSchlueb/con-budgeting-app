@@ -799,8 +799,8 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 </div>
 
 {showCategoryModal && (
-  <div className="category-modal-backdrop" style={modalBackdropStyle}>
-    <div className="category-modal" style={modalContentStyle}>
+  <div className="category-modal-backdrop">
+    <div className="category-modal">
       <h3>Select a Category for this Receipt</h3>
       <p>Where should this expense by tracked?</p>
       
