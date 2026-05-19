@@ -316,7 +316,7 @@ function Dashboard ({auth, SignOut}) {
       body: file, // The raw Blob from IndexedDB
       headers: {
         'Content-Type': file.type, // Adjust if you support more types
-        'x-amz-meta-con-name': nextCon, // Custom metadata for your Lambda to read
+        'x-amz-meta-con-name': nextCon // Custom metadata for your Lambda to read
       }
     });
 
