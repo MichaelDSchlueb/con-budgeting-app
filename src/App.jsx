@@ -304,6 +304,7 @@ function Dashboard ({auth, SignOut}) {
       }),
       headers: {
         'Content-Type': 'application/json',
+        'x-amz-meta-con-name': nextCon // Custom header to pass con name to Lambda, which can then add it as metadata in S3 for easier querying later
         // 'Authorization': `Bearer ${token}` // Add this once Cognito is fully wired
       }
     });
