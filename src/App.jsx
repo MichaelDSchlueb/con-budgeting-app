@@ -299,7 +299,8 @@ function Dashboard ({auth, SignOut}) {
       body: JSON.stringify({
         fileName: `receipt_${Date.now()}.jpg`,
         fileType: file.type,
-        user_sub: profile['sub']
+        user_sub: profile['sub'],
+        con_name: nextCon
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -314,7 +315,8 @@ function Dashboard ({auth, SignOut}) {
       method: 'PUT',
       body: file, // The raw Blob from IndexedDB
       headers: {
-        'Content-Type': file.type // Adjust if you support more types
+        'Content-Type': file.type, // Adjust if you support more types
+        'x-amz-meta-con-name': nextCon, // Custom metadata for your Lambda to read
       }
     });
 
