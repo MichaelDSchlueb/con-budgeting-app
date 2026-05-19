@@ -293,7 +293,7 @@ function Dashboard ({auth, SignOut}) {
   const [pendingFile, setPendingFile] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const[showCategoryModal, setShowCategoryModal] = useState(false);
-  const uploadToS3 = async (file) => {
+  const uploadToS3 = async (file, manualCategory) => {
   try {
     // STEP 1: Get a Pre-signed URL from your Lambda/API Gateway
     // Replace this URL with your actual endpoint
@@ -303,7 +303,8 @@ function Dashboard ({auth, SignOut}) {
         fileName: `receipt_${Date.now()}.jpg`,
         fileType: file.type,
         user_sub: profile['sub'],
-        con_name: nextCon
+        con_name: nextCon,
+        manualCategory: manualCategory
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -319,7 +320,8 @@ function Dashboard ({auth, SignOut}) {
       body: file, // The raw Blob from IndexedDB
       headers: {
         'Content-Type': file.type, // Adjust if you support more types
-        'x-amz-meta-con-name': nextCon // Custom metadata for your Lambda to read
+        'x-amz-meta-con-name': nextCon,
+        'x-amz-meta-manual-category': manualCategory // Custom metadata for your Lambda to read
       }
     });
 
@@ -415,27 +417,43 @@ function Dashboard ({auth, SignOut}) {
     if (!user) return "Unknown_User";
     
   }
+
   const handleReceiptSubmit = async (file) => {
-    console.log("File detected:", file); // If this is undefined, the input isn't working
+    console.log("Receipt file received for upload:", file);
     if (!file) return;
+
+    setPendingFile(file);
+    setSelectedCategory('');
+    setShowCategoryModal(true);
+  }
+
+  const handleConfirmCategory = async () => {
+    if (!selectedCategory) {
+      alert("Please select a category to continue");
+      return;
+    }
+    setShowCategoryModal(false);
+    const fileToUpload = pendingFile;
+    setPendingFile(null); // Clear the pending file state
 
     const metadata = { 
       user_sub: profile['sub'], 
       category: selectedCategory, // Replace with actual selected category
+      con_name: nextCon,
       timestamp: new Date().toISOString() 
     }; 
 
     if (navigator.onLine) {
       try {
         // Your S3 upload logic here
-        await uploadToS3(file);
+        await uploadToS3(fileToUpload, selectedCategory);
       } catch (err) {
         // If upload fails even while online, fallback to queue
-        await saveToOfflineQueue(file, metadata);
+        await saveToOfflineQueue(fileToUpload, metadata);
       }
     } else {
       // Mission-Critical Offline Mode for MomoCon floor
-      await saveToOfflineQueue(file, metadata);
+      await saveToOfflineQueue(fileToUpload, metadata);
       alert("Receipt saved locally! It will sync when you're back online.");
     }
   }; 
@@ -781,7 +799,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 </div>
 
 {showCategoryModal && (
-  <div className="category-model-backdrop" style={modalBackdropStyle}>
+  <div className="category-modal-backdrop" style={modalBackdropStyle}>
     <div className="category-modal" style={modalContentStyle}>
       <h3>Select a Category for this Receipt</h3>
       <p>Where should this expense by tracked?</p>
@@ -799,7 +817,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         {/* Add more categories as needed */}
       </select>
       <div className="modal-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-        <button type="button" onClick={() => setShowCategoryModal(false)} style={{ padding: '8px 12px', backgroundColor: '#ccc', border: 'none', borderRadius: '4px' }}>
+        <button type="button" onClick={() => {setShowCategoryModal(false); setPendingFile(null);}} style={{ padding: '8px 12px', backgroundColor: '#ccc', border: 'none', borderRadius: '4px' }}>
           Cancel
         </button>
         <button type="button" disabled={!selectedCategory} onClick={handleConfirmCategory} style={{ padding: '8px 12px', backgroundColor: '#A8E6CF', border: 'none', borderRadius: '4px', color: '#161b22' }}>
