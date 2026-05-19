@@ -290,6 +290,9 @@ function Dashboard ({auth, SignOut}) {
   const profile = user.profile
   const [nextCon, setNextCon] = useState(""); // blank string until we fetch it from the API
   console.log(profile['sub'])
+  const [pendingFile, setPendingFile] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const[showCategoryModal, setShowCategoryModal] = useState(false);
   const uploadToS3 = async (file) => {
   try {
     // STEP 1: Get a Pre-signed URL from your Lambda/API Gateway
@@ -416,9 +419,23 @@ function Dashboard ({auth, SignOut}) {
   const handleReceiptSubmit = async (file) => {
     console.log("File detected:", file); // If this is undefined, the input isn't working
     if (!file) return;
+    setPendingFile(file);
+    setSelectedCategory(''); // Reset category selection
+    setShowCategoryModal(true); // Show the category selection modal
+    const handleConfirmCategory = async (category) => {
+      if (!selectedCategory) {
+        alert("Please select a category to continue");
+        return;
+      }
+    }
+
+    setShowCategoryModal(false); // Hide the modal after selection
+    const fileToUpload = pendingFile; // This should be the file you want to upload
+    setPendingFile(null); // Clear the pending file state
+
     const metadata = { 
       user_sub: profile['sub'], 
-      category: 'General',
+      category: selectedCategory, // Replace with actual selected category
       timestamp: new Date().toISOString() 
     }; 
 
@@ -776,6 +793,36 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     />
   </label>
 </div>
+
+{showCategoryModal && (
+  <div className="category-model-backdrop" style={modalBackdropStyle}>
+    <div className="category-modal" style={modalContentStyle}>
+      <h3>Select a Category for this Receipt</h3>
+      <p>Where should this expense by tracked?</p>
+      
+      <select value={selectedCategory}
+      onChange={(e) => setSelectedCategory(e.target.value)}
+      style={{ padding: '8px', fontSize: '16px', marginBottom: '20px', width: '100%' }}>
+        <option value="" disabled>Select category...</option>
+        <option value="Food">Food</option>
+        <option value="Hotel">Hotel</option>
+        <option value="Art/Vend">Art/Vend</option>
+        <option value="Guests">Guests</option>
+        <option value="Convention">Convention</option>
+        <option value="Transportation">Transportation</option>
+        {/* Add more categories as needed */}
+      </select>
+      <div className="modal-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+        <button type="button" onClick={() => setShowCategoryModal(false)} style={{ padding: '8px 12px', backgroundColor: '#ccc', border: 'none', borderRadius: '4px' }}>
+          Cancel
+        </button>
+        <button type="button" disabled={!selectedCategory} onClick={handleConfirmCategory} style={{ padding: '8px 12px', backgroundColor: '#A8E6CF', border: 'none', borderRadius: '4px', color: '#161b22' }}>
+          Confirm
+        </button>
+        </div>
+    </div>
+  </div>
+)}
       <div id="purchases-goals" style={{ marginTop: '16px'}}>
         <div className="purchases-block">
           
