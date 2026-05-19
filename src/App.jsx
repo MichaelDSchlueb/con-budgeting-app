@@ -415,67 +415,9 @@ function Dashboard ({auth, SignOut}) {
     if (!user) return "Unknown_User";
     
   }
-
-  // 1. Catches the file immediately from the native camera/gallery input click
-  const handleReceiptSubmit = (file) => {
-    console.log("File captured by input:", file);
-    if (!file) return;
-
-    // 🎯 INTERCEPT: Hold file in state, clear old choice, open selection overlay
-    setPendingFile(file);
-    setSelectedCategory(''); 
-    setShowCategoryModal(true);
-  };
-
-  // 2. Fires when the user selects a category inside the overlay and clicks "Confirm"
-  const handleConfirmCategory = async () => {
-    if (!selectedCategory) {
-      alert("Please select a category to continue.");
-      return;
-    }
-
-    setShowCategoryModal(false); // Close popup
-    const fileToUpload = pendingFile;
-    setPendingFile(null); // Clear placeholder slot
-
-    const metadata = { 
-      user_sub: profile['sub'], 
-      category: selectedCategory, // Passes chosen category dynamically
-      con_name: nextCon,
-      timestamp: new Date().toISOString() 
-    }; 
-
-    if (navigator.onLine) {
-      try {
-        console.log(`Streaming online with assigned category: ${selectedCategory}`);
-        await uploadToS3(fileToUpload, selectedCategory); // Calls your updated step-2 fetch
-      } catch (err) {
-        console.warn("Online transmission fail. Diverting to local fallback storage...");
-        await saveToOfflineQueue(fileToUpload, metadata);
-      }
-    } else {
-      // Offline optimization for convention center service dead zones
-      await saveToOfflineQueue(fileToUpload, metadata);
-      alert(`Saved locally under "${selectedCategory}"! Syncing when connection restabilizes.`);
-    }
-  };
-  
   const handleReceiptSubmit = async (file) => {
     console.log("File detected:", file); // If this is undefined, the input isn't working
     if (!file) return;
-    setPendingFile(file);
-    setSelectedCategory(''); // Reset category selection
-    setShowCategoryModal(true); // Show the category selection modal
-    const handleConfirmCategory = async (category) => {
-      if (!selectedCategory) {
-        alert("Please select a category to continue");
-        return;
-      }
-    }
-
-    setShowCategoryModal(false); // Hide the modal after selection
-    const fileToUpload = pendingFile; // This should be the file you want to upload
-    setPendingFile(null); // Clear the pending file state
 
     const metadata = { 
       user_sub: profile['sub'], 
