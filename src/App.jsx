@@ -304,7 +304,7 @@ function Dashboard ({auth, SignOut}) {
         fileType: file.type,
         user_sub: profile['sub'],
         con_name: nextCon,
-        manualCategory: manualCategory
+        manual_category: manualCategory
       }),
       headers: {
         'Content-Type': 'application/json',
