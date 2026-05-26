@@ -810,16 +810,13 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       style={{ display: 'none' }} 
     />
   </label>
-  <label id="manual-button" htmlFor="manual-upload" className="action-btn manual-btn">
-    ✍️ Manual Entry
-    <input 
-      type="file" 
-      accept="image/*" 
-      id="manual-upload"
-      onChange={(e) => e.target.files?.[0] && handleReceiptSubmit(e.target.files[0])}
-      style={{ display: 'none' }} 
-    />
-  </label>
+  <button type="button" className="action-btn manual-btn" onClick={() => {
+    setPendingFile(null);
+    setSelectedCategory('');
+    setShowCategoryModal(true);
+  }}>
+    ✏️ Manual Entry
+  </button>
 </div>
 
 {showCategoryModal && (
