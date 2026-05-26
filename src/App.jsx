@@ -436,28 +436,40 @@ function Dashboard ({auth, SignOut}) {
     const fileToUpload = pendingFile;
     setPendingFile(null); // Clear the pending file state
 
+    let manualAmount = null;
+    if (!fileToUpload) {
+      const input = prompt("Enter the amount for this receipt:");
+      if (!input || isNaN(input)) {
+        alert("Invalid amount entered. Please try uploading the receipt again.");
+        return;
+      }
+      manualAmount = parseFloat(input);
+    }
+
     const metadata = { 
       user_sub: profile['sub'], 
       category: selectedCategory, // Replace with actual selected category
       con_name: nextCon,
-      timestamp: new Date().toISOString() 
+      timestamp: new Date().toISOString(),
+      amount: manualAmount,
+      is_manual: !fileToUpload // Flag to indicate this entry was created manually without a file 
     }; 
 
     if (navigator.onLine) {
       try {
-        // Your S3 upload logic here
-        await uploadToS3(fileToUpload, selectedCategory);
+        if (fileToUpload) {
+          await uploadToS3(fileToUpload, selectedCategory);
+        } else {
+          await logManualExpense(metadata);
+        }
       } catch (err) {
-        // If upload fails even while online, fallback to queue
         await saveToOfflineQueue(fileToUpload, metadata);
       }
     } else {
-      // Mission-Critical Offline Mode for MomoCon floor
       await saveToOfflineQueue(fileToUpload, metadata);
-      alert("Receipt saved locally! It will sync when you're back online.");
     }
   }; 
-  console.log(nextCon)
+
   // Ensure your Dashboard uses the auth data to fetch your purchases
   useEffect(() => {
   // Use 'user' from your useAuthenticator hook instead
@@ -597,6 +609,8 @@ const categoryCodeMap = {
   'Uncategorized': 'UNK',
   'Convention': 'CVN',
   'Transportation': 'TRN',
+  'Emergency Fund': 'EMG',
+  'Cosplay': 'CSP',
   // Add more mappings as needed
 };
 
@@ -792,6 +806,16 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       type="file" 
       accept="image/*" 
       id="gallery-upload"
+      onChange={(e) => e.target.files?.[0] && handleReceiptSubmit(e.target.files[0])}
+      style={{ display: 'none' }} 
+    />
+  </label>
+  <label id="manual-button" htmlFor="manual-upload" className="action-btn manual-btn">
+    ✍️ Manual Entry
+    <input 
+      type="file" 
+      accept="image/*" 
+      id="manual-upload"
       onChange={(e) => e.target.files?.[0] && handleReceiptSubmit(e.target.files[0])}
       style={{ display: 'none' }} 
     />
