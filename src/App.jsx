@@ -44,8 +44,6 @@ function WelcomeOverlay({auth}) {
       data
     };
     
-    console.log("Final payload to send to API:", finalPayload);
-    
     try {
       const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/set-user', {
         method: 'POST',
@@ -185,8 +183,6 @@ function LandingPage() {
 */
   const username = auth?.user?.profile?.['cognito:username'];
 
-  console.log("Dashboard detected username:", username);
-
   const signOutRedirect = () => {
 
     localStorage.clear();
@@ -293,6 +289,20 @@ function Dashboard ({auth, SignOut}) {
   const [pendingFile, setPendingFile] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const[showCategoryModal, setShowCategoryModal] = useState(false);
+
+  const logManualExpense = async (metadata) => { 
+    const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases', {
+      method: 'POST',
+      body: JSON.stringify({
+        user_sub: profile['sub'], 
+        category: metadata.category
+        }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   const uploadToS3 = async (file, manualCategory) => {
   try {
     // STEP 1: Get a Pre-signed URL from your Lambda/API Gateway
@@ -438,12 +448,18 @@ function Dashboard ({auth, SignOut}) {
 
     let manualAmount = null;
     if (!fileToUpload) {
-      const input = prompt("Enter the amount for this receipt:");
-      if (!input || isNaN(input)) {
+      const priceInput = prompt("Enter the amount for this receipt:");
+      const vendorInput = prompt("Enter the vendor/store for this receipt:");
+      if (!priceInput || isNaN(priceInput)) {
         alert("Invalid amount entered. Please try uploading the receipt again.");
         return;
       }
-      manualAmount = parseFloat(input);
+      if (!vendorInput) {
+        alert("Invalid vendor entered. Please try uploading the receipt again.");
+        return;
+      }
+      manualAmount = parseFloat(priceInput);
+      manualVendor = vendorInput;
     }
 
     const metadata = { 
@@ -835,6 +851,8 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <option value="Guests">Guests</option>
         <option value="Convention">Convention</option>
         <option value="Transportation">Transportation</option>
+        <option value="Emergency Fund">Emergency Fund</option>
+        <option value="Cosplay">Cosplay</option>
         {/* Add more categories as needed */}
       </select>
       <div className="modal-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
