@@ -430,7 +430,7 @@ function Dashboard ({auth, SignOut}) {
 
   const handleReceiptSubmit = async (file) => {
     console.log("Receipt file received for upload:", file);
-    if (!file) return;
+    //if (!file) return;
 
     setPendingFile(file);
     setSelectedCategory('');
