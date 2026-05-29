@@ -827,9 +827,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     />
   </label>
   <button type="button" className="action-btn manual-btn" onClick={() => {
-    setPendingFile(null);
-    setSelectedCategory('');
-    setShowCategoryModal(true);
+    handleReceiptSubmit(null); // Trigger manual entry flow without a file
   }}>
     ✏️ Manual Entry
   </button>
