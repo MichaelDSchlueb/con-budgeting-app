@@ -447,6 +447,7 @@ function Dashboard ({auth, SignOut}) {
     setPendingFile(null); // Clear the pending file state
 
     let manualAmount = null;
+    let manualVendor = null;
     if (!fileToUpload) {
       const priceInput = prompt("Enter the amount for this receipt:");
       const vendorInput = prompt("Enter the vendor/store for this receipt:");
