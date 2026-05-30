@@ -301,6 +301,9 @@ function Dashboard ({auth, SignOut}) {
           timestamp: metadata.timestamp,
           category: metadata.category,
           con_name: metadata.con_name,
+          price_number: metadata.amount,
+          item_name: metadata.item_name,
+          vendor: metadata.vendor
           }),
         headers: {
           'Content-Type': 'application/json'
