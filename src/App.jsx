@@ -477,6 +477,7 @@ function Dashboard ({auth, SignOut}) {
       try {
         console.log("Online: Attempting to upload receipt with metadata:", metadata);
         if (fileToUpload) {
+          console.log("File detected, proceeding with S3 upload...");
           await uploadToS3(fileToUpload, selectedCategory);
         } else {
           console.log("No file to upload, logging manual expense directly with metadata.");
