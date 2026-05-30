@@ -162,6 +162,10 @@ function WelcomeOverlay({auth}) {
           <p>How much are you planning to spend on this con?</p>
           <input type="number" required name="plannedSpend" />
         </label>
+        <label>
+          <p>How much do you plan to set aside for emergencies?</p>
+          <input type="number" required name="emergencyFund" />
+        </label>
         <button type="submit">Save Preferences</button>
       </form>
     </div>
