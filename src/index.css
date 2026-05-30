@@ -68,7 +68,7 @@ text {
   font-weight: bold;
 }
 
-#gallery-button, #scan-button {
+#gallery-button, #scan-button, #manual-button {
   background-color: #A8E6CF;
   color: white;
   border: black solid 1px;

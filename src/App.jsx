@@ -852,7 +852,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       style={{ display: 'none' }} 
     />
   </label>
-  <button type="button" className="action-btn manual-btn" onClick={() => {
+  <button type="button" id="manual-button" className="action-btn manual-btn" onClick={() => {
     handleReceiptSubmit(null); // Trigger manual entry flow without a file
   }}>
     ✏️ Manual Entry
