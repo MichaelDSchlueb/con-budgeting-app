@@ -479,10 +479,11 @@ function Dashboard ({auth, SignOut}) {
         if (fileToUpload) {
           await uploadToS3(fileToUpload, selectedCategory);
         } else {
+          console.log("No file to upload, logging manual expense directly with metadata.");
           await logManualExpense(metadata);
         }
       } catch (err) {
-        console.log("I can upload")
+        console.error("Upload failed, saving to offline queue.", err);
         await saveToOfflineQueue(fileToUpload, metadata);
       }
     } else {
