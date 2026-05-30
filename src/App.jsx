@@ -298,7 +298,9 @@ function Dashboard ({auth, SignOut}) {
         method: 'POST',
         body: JSON.stringify({
           user_sub: profile['sub'], 
-          category: metadata.category
+          timestamp: metadata.timestamp,
+          category: metadata.category,
+          con_name: metadata.con_name,
           }),
         headers: {
           'Content-Type': 'application/json'
@@ -455,19 +457,26 @@ function Dashboard ({auth, SignOut}) {
 
     let manualAmount = null;
     let manualVendor = null;
+    let manualItemName = null;
     if (!fileToUpload) {
       const priceInput = prompt("Enter the amount for this receipt:");
-      const vendorInput = prompt("Enter the vendor/store for this receipt:");
       if (!priceInput || isNaN(priceInput)) {
         alert("Invalid amount entered. Please try uploading the receipt again.");
         return;
       }
+      const vendorInput = prompt("Enter the vendor/store for this receipt:");
       if (!vendorInput) {
         alert("Invalid vendor entered. Please try uploading the receipt again.");
         return;
       }
+      const itemNameInput = prompt("Enter the item name for this receipt:");
+      if (!itemNameInput) {
+        alert("Invalid item name entered. Please try uploading the receipt again.");
+        return;
+      }
       manualAmount = parseFloat(priceInput);
       manualVendor = vendorInput;
+      manualItemName = itemNameInput;
     }
 
     const metadata = { 
@@ -476,7 +485,9 @@ function Dashboard ({auth, SignOut}) {
       con_name: nextCon,
       timestamp: new Date().toISOString(),
       amount: manualAmount,
-      is_manual: !fileToUpload // Flag to indicate this entry was created manually without a file 
+      is_manual: !fileToUpload, // Flag to indicate this entry was created manually without a file
+      vendor: manualVendor,
+      item_name: manualItemName
     }; 
 
     if (navigator.onLine) {
