@@ -291,6 +291,7 @@ function Dashboard ({auth, SignOut}) {
   const[showCategoryModal, setShowCategoryModal] = useState(false);
 
   const logManualExpense = async (metadata) => { 
+    console.log(metadata)
     try {
       console.log("Logging manual expense with metadata:", metadata);
       const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases', {
