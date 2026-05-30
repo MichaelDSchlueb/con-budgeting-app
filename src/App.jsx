@@ -291,18 +291,22 @@ function Dashboard ({auth, SignOut}) {
   const[showCategoryModal, setShowCategoryModal] = useState(false);
 
   const logManualExpense = async (metadata) => { 
-    console.log("Logging manual expense with metadata:", metadata);
-    const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases', {
-      method: 'POST',
-      body: JSON.stringify({
-        user_sub: profile['sub'], 
-        category: metadata.category
-        }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    console.log(repsonse)
+    try {
+      console.log("Logging manual expense with metadata:", metadata);
+      const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases', {
+        method: 'POST',
+        body: JSON.stringify({
+          user_sub: profile['sub'], 
+          category: metadata.category
+          }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    console.log(response)
+  } catch (err) {
+    console.error("Absolutely not! I refuse to log this expense online!", err);
+  }
   }
 
   const uploadToS3 = async (file, manualCategory) => {
