@@ -302,6 +302,7 @@ function Dashboard ({auth, SignOut}) {
         'Content-Type': 'application/json'
       }
     });
+    console.log(repsonse)
   }
 
   const uploadToS3 = async (file, manualCategory) => {
