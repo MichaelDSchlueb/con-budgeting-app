@@ -474,12 +474,14 @@ function Dashboard ({auth, SignOut}) {
 
     if (navigator.onLine) {
       try {
+        console.log("Online: Attempting to upload receipt with metadata:", metadata);
         if (fileToUpload) {
           await uploadToS3(fileToUpload, selectedCategory);
         } else {
           await logManualExpense(metadata);
         }
       } catch (err) {
+        console.log("No! I won't upload")
         await saveToOfflineQueue(fileToUpload, metadata);
       }
     } else {
