@@ -481,7 +481,7 @@ function Dashboard ({auth, SignOut}) {
           await logManualExpense(metadata);
         }
       } catch (err) {
-        console.log("No! I won't upload")
+        console.log("I can upload")
         await saveToOfflineQueue(fileToUpload, metadata);
       }
     } else {
