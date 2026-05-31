@@ -822,7 +822,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
                 <DonutGauge percent={percentUsed} />
                 <p>Spending: ${currentSpend} / ${totalBudget}</p>
                 {emergencyFund && (
-                  {emergencyFundCard}
+                  {EmergencyFundCard}
                 )}
               </div>
               )}
