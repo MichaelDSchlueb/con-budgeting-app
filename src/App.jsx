@@ -281,6 +281,7 @@ function Dashboard ({auth, SignOut}) {
   const [count, setCount] = useState(0)
   const [totalBudget, setTotalBudget] = useState(0);
   const [emergencyFund, setEmergencyFund] = useState(0);
+  const [emergencyPurchases, setEmergencyPurchases] = useState([]);
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupBy, setGroupBy] = useState('category'); // New state for grouping
@@ -692,7 +693,9 @@ const getCategoryCode = (category) => categoryCodeMap[category] || '??';
 const groupedPurchases = useMemo(() => {
   if (!purchases || !Array.isArray(purchases)) return {};
 
-  return purchases.reduce((groups, item) => {
+  const operationalPurchases = purchases.filter(item => item.category !== 'Emergency Fund');
+
+  return operationalPurchases.reduce((groups, item) => {
     // Dynamically select the key based on the 'groupBy' state
     const key = item[groupBy] || 'Uncategorized';
     if (!groups[key]) groups[key] = [];
