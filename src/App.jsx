@@ -821,11 +821,11 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               <div id="DonutGuage" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <DonutGauge percent={percentUsed} />
                 <p>Spending: ${currentSpend} / ${totalBudget}</p>
-                {emergencyFund && (
-                  {EmergencyFundCard}
-                )}
               </div>
               )}
+            </div>
+            <div id="emergency-fund" style={{ marginTop: '30px' }}>
+              {emergencyFund > 0 && <EmergencyFundCard emergencyFund={emergencyFund} />}
             </div>
             <div style={{ width: '100%', height: '250px' }}>
             <ResponsiveContainer width="100%" height="100%">
