@@ -573,6 +573,34 @@ const queueReceipt = (receiptData) => {
 
   const percentUsed = (currentSpend / totalBudget) * 100;
 
+  const EmergencyFundCard = ({ emergencyFund }) => {
+    const { totalSpent } = emergencyMetrics;
+    const remaining = emergencyFund - totalSpent;
+    const percentConsumed = Math.min((totalSpent / emergencyFund) * 100, 100);
+
+    return (
+      <div className="p-4 bg-gray-800 text-white rounded-lg shadow-mid">
+        <h3 className="text-lg font-semibold mb-2">Emergency Fund Reserve</h3>
+
+        <div className="flex justify-between text-sm mb-1">
+          <span>Remaining: ${remaining.toFixed(2)}</span>
+          <span>Target: ${emergencyFund.toFixed(2)}</span>
+        </div>
+
+        <div className="w-full bg-gray-700 h-4 rounded-full overflow-hidden">
+          <div
+            className="bg-red-500 h-full transition-all duration-300"
+            style={{ width: `${percentConsumed}%` }}
+            />
+        </div>
+
+        <p className="text-xs text-gray-400 mt-2">
+          Allocated separately from your operational event budget.
+        </p>
+      </div>
+    )
+  }
+
   const DonutGauge = ({ percent }) => {
   const radius = 70;
   const circumference = 2 * Math.PI * radius; // $2 \pi r$
@@ -720,9 +748,7 @@ const chartData = useMemo(() => {
   return Object.entries(groupedPurchases).map(([name, items]) => {
     //console.log(`Processing group: ${name} with items:`, items);
     const total = items.reduce((sum, item) => {
-      if (item.category === 'Emergency Fund') {
-        return sum; // Skip adding to total if it's an emergency fund entry
-      }
+      
       // 2. Ensure amount is a number, even if it comes in as a string
       const amount = parseFloat(item.price_number) || 0;
       return sum + amount;
