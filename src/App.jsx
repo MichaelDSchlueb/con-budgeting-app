@@ -708,6 +708,9 @@ const chartData = useMemo(() => {
   return Object.entries(groupedPurchases).map(([name, items]) => {
     //console.log(`Processing group: ${name} with items:`, items);
     const total = items.reduce((sum, item) => {
+      if (item.category === 'Emergency Fund') {
+        return sum; // Skip adding to total if it's an emergency fund entry
+      }
       // 2. Ensure amount is a number, even if it comes in as a string
       const amount = parseFloat(item.price_number) || 0;
       return sum + amount;
