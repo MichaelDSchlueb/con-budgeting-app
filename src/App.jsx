@@ -562,6 +562,15 @@ const queueReceipt = (receiptData) => {
     return purchases.reduce((total, item) => total + (parseFloat(item.price_number) || 0), 0);
   }, [purchases]);
 
+  const emergencyMetrics = useMemo(() => {
+    if (!purchases || !Array.isArray(purchases)) { return { totalSpent: 0, items: [] }; }
+
+    const emergencyItems = purchases.filter(item => item.category === 'Emergency Fund');
+    const totalSpent = emergencyItems.reduce((sum, item) => sum + (parseFloat(item.price_number) || 0), 0);
+
+    return { totalSpent, items: emergencyItems };
+  }, [purchases]);
+
   const percentUsed = (currentSpend / totalBudget) * 100;
 
   const DonutGauge = ({ percent }) => {
