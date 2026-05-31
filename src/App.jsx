@@ -280,6 +280,7 @@ function LandingPage() {
 function Dashboard ({auth, SignOut}) {
   const [count, setCount] = useState(0)
   const [totalBudget, setTotalBudget] = useState(0);
+  const [emergencyFund, setEmergencyFund] = useState(0);
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupBy, setGroupBy] = useState('category'); // New state for grouping
@@ -631,6 +632,10 @@ useEffect(() => {
   .then(data => {
     setTotalBudget(data['0'].budget); // Adjust based on actual API response structure
     setNextCon(data['0'].next_con);
+    if (data['0'].emergency_fund) {
+      setEmergencyFund(data['0'].emergency_fund);
+    }
+    console.log("Fetched user data for dashboard:", data);
   })
 }, [profile.sub]);
 
@@ -775,6 +780,9 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               <div id="DonutGuage" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <DonutGauge percent={percentUsed} />
                 <p>Spending: ${currentSpend} / ${totalBudget}</p>
+                {emergencyFund && (
+                  <p>Emergency Fund: ${emergencyFund}</p>
+                )}
               </div>
               )}
             </div>
