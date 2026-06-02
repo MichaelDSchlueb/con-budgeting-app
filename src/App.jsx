@@ -584,6 +584,7 @@ const queueReceipt = (receiptData) => {
 
         <div className="flex justify-between text-sm mb-1">
           <span>Remaining: ${remaining.toFixed(2)}</span>
+          <br></br>
           <span>Target: ${emergencyFund.toFixed(2)}</span>
         </div>
 
@@ -734,7 +735,17 @@ const groupedPurchases = useMemo(() => {
 
   return operationalPurchases.reduce((groups, item) => {
     // Dynamically select the key based on the 'groupBy' state
-    const key = item[groupBy] || 'Uncategorized';
+    let keyProperty = groupBy;
+    if (groupBy === 'date') {
+      // If grouping by date, we might want to format it to just 'YYYY-MM-DD'
+      keyProperty = 'date'; // Assuming your API returns a 'date' field in ISO format
+    }
+    const key = item[keyProperty] || 'Uncategorized';
+    if (groupBy === 'date' && key !== 'Uncategorized') {
+      // Format the date to 'YYYY-MM-DD' if it's a valid date string
+      const dateObj = new Date(key);
+      item[keyProperty] = dateObj.toISOString().split('T')[0]; // Update the item with the formatted date
+    }
     if (!groups[key]) groups[key] = [];
     groups[key].push(item);
     return groups;
