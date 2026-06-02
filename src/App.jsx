@@ -735,17 +735,15 @@ const groupedPurchases = useMemo(() => {
 
   return operationalPurchases.reduce((groups, item) => {
     // Dynamically select the key based on the 'groupBy' state
-    let keyProperty = groupBy;
-    if (groupBy === 'date') {
-      // If grouping by date, we might want to format it to just 'YYYY-MM-DD'
-      keyProperty = 'date'; // Assuming your API returns a 'date' field in ISO format
-    }
-    const key = item[keyProperty] || 'Uncategorized';
+    const lookupKey = groupBy === 'date' ? 'timestamp' : 'category';
+
+    let key = item[lookupKey] || 'Uncategorized';
+
     if (groupBy === 'date' && key !== 'Uncategorized') {
       // Format the date to 'YYYY-MM-DD' if it's a valid date string
-      const dateObj = new Date(key);
-      item[keyProperty] = dateObj.toISOString().split('T')[0]; // Update the item with the formatted date
+      key = key.split('T')[0]; // Update the item with the formatted date
     }
+
     if (!groups[key]) groups[key] = [];
     groups[key].push(item);
     return groups;
@@ -783,8 +781,18 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   }}>
 
     {Object.entries(groupedData).map(([key, items]) => (
-      <div key={key} style={{ marginBottom: '15px' }}>
-        <div style={{ padding: 0 }}>
+      <div key={key} style={{ marginBottom: '20px' }}>
+          <div style={{
+            fontSize: '1.1rem',
+            fontWeight: 'bold',
+            color: '#8b949e',
+            marginBottom: '8px',
+            borderBottom: '1px solid #30363d',
+            paddingBottom: '4px'
+          }}>
+            {key}
+          </div>
+          <div style={{ padding: 0 }}>
           {items.map(p => (
             <div key={p.id} style={{ 
               display: 'flex', 
@@ -792,9 +800,8 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               padding: '8px 0', 
               borderBottom: '1px solid #30363d' 
             }}>
-              <span>{key}</span>
-              <span>{p.item_name}</span>
-              <span>${p.price_number}</span>
+              <span style={{ fontWeight: '500' }}>{p.item_name}</span>
+              <span style={{ color: '#58a6ff'}}>${p.price_number}</span>
             </div>
           ))}
         </div>
