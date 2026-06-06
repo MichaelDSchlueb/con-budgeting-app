@@ -315,9 +315,11 @@ function Dashboard ({auth, SignOut}) {
           'Content-Type': 'application/json'
         }
       });
-    console.log(response)
+    if ( response.ok ) {
+      window.alert("Manual expense logged successfully!");
+    }
   } catch (err) {
-    console.error("Absolutely not! I refuse to log this expense online!", err);
+    window.alert("Warning: The input could not be processed at this time.");
   }
   }
 
@@ -800,6 +802,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               padding: '8px 0', 
               borderBottom: '1px solid #30363d' 
             }}>
+              <span>✏️</span>
               <span style={{ fontWeight: '500' }}>{p.item_name}</span>
               <span style={{ color: '#58a6ff'}}>${p.price_number}</span>
             </div>
