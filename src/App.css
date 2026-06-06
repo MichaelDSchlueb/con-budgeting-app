@@ -238,7 +238,7 @@ nav {
     }
   }
 }
-.category-modal-backdrop {
+.category-modal-backdrop, .edit-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -251,7 +251,7 @@ nav {
   z-index: 9999; /* Keeps it above everything else */
 }
 
-.category-modal-content {
+.category-modal-content, .edit-modal-content {
   background: white;
   padding: 24px;
   border-radius: 8px;
