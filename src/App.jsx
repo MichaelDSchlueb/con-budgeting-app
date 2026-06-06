@@ -988,7 +988,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 {editingPurchase &&(
   <div className="edit-modal-backdrop">
     <h3>Editing {editingPurchase.name}</h3>
-
+  
     <label>Category:</label>
     <select
       value={editingPurchase.category || "Uncategorized"}
