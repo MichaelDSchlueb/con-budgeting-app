@@ -854,7 +854,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               padding: '8px 0', 
               borderBottom: '1px solid #30363d' 
             }}>
-              <span onclick={() => handleStartEdit(p)}>✏️</span>
+              <span onClick={() => handleStartEdit(p)}>✏️</span>
               <span style={{ fontWeight: '500' }}>{p.item_name}</span>
               <span style={{ color: '#58a6ff'}}>${p.price_number}</span>
             </div>
