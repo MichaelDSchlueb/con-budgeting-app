@@ -295,6 +295,58 @@ function Dashboard ({auth, SignOut}) {
   const [pendingFile, setPendingFile] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const[showCategoryModal, setShowCategoryModal] = useState(false);
+  const [editingPurchase, setEditingPurchase] = useState(null);
+
+  const handleStartEdit = (purchase) => {
+    console.log("Starting edit for purchase:", purchase);
+    setEditingPurchase({purchase});
+  };
+
+  const handleFieldChange = (field, value) => {
+    setEditingPurchase(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSaveUpdate = async () => {
+    if (!editingPurchase) return;
+
+    const updatableFields = {
+      category: editingPurchase.category || null,
+      price_number: editingPurchase.price_number ? parseFloat(editingPurchase.price_number) : null,
+      item_name: editingPurchase.item_name || null,
+      vendor: editingPurchase.vendor || null
+    };
+
+    const payload = {
+      user_sub: profile['sub'],
+      purchase_id: editingPurchase.id,
+      updateable_fields: updatableFields
+    };
+
+    try {
+      const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases', {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        setPutchases(prev => prev.map(p => {
+          if (p.id === editingPurchase.id) {
+            return {...p, ...updatableFields};
+          }
+          return p;
+        }));
+
+        setEditingPurchase(null);
+      }
+    } catch (err) {
+      console.error("Failed to update purchase:", err);
+    }
+  }
 
   const logManualExpense = async (metadata) => { 
     console.log(metadata)
@@ -802,7 +854,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
               padding: '8px 0', 
               borderBottom: '1px solid #30363d' 
             }}>
-              <span>✏️</span>
+              <span onclick={() => handleStartEdit(p)}>✏️</span>
               <span style={{ fontWeight: '500' }}>{p.item_name}</span>
               <span style={{ color: '#58a6ff'}}>${p.price_number}</span>
             </div>
@@ -932,6 +984,50 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     ✏️ Manual Entry
   </button>
 </div>
+
+{editingPurchase &&(
+  <div className="edit-modal-backdrop">
+    <h3>Editing {editingPurchase.name}</h3>
+
+    <label>Category:</label>
+    <select
+      value={editingPurchase.category || "Uncategorized"}
+      onChange={(e) => setEditingPurchase({...editingPurchase, category: e.target.value})}
+    >
+      <option value="Uncategorized">Uncategorized</option>
+      <option value="Food">Food</option>
+      <option value="Hotel">Hotel</option>
+      <option value="Art/Vend">Art/Vend</option>
+      <option value="Guests">Guests</option>
+      <option value="Convention">Convention</option>
+      <option value="Transportation">Transportation</option>
+      <option value="Emergency Fund">Emergency Fund</option>
+      <option value="Cosplay">Cosplay</option>
+    </select>
+
+    <label>Amount:</label>
+    <input 
+      type="number" 
+      value={editingPurchase.price_number} 
+      onChange={(e) => setEditingPurchase({...editingPurchase, price_number: e.target.value})} 
+    />
+    <label>Item Name:</label>
+    <input 
+      type="text" 
+      value={editingPurchase.item_name} 
+      onChange={(e) => setEditingPurchase({...editingPurchase, item_name: e.target.value})} 
+    />
+
+    <label>Vendor:</label>
+    <input 
+      type="text" 
+      value={editingPurchase.vendor} 
+      onChange={(e) => setEditingPurchase({...editingPurchase, vendor: e.target.value})} 
+    />
+
+    <button type="button" onClick={() => setEditingPurchase(null)}>Cancel</button>
+  </div>
+)}
 
 {showCategoryModal && (
   <div className="category-modal-backdrop">
