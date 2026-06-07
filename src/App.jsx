@@ -318,6 +318,8 @@ function Dashboard ({auth, SignOut}) {
       vendor: editingPurchase.vendor || null
     };
 
+    console.log(profile['sub'])
+
     const payload = {
       user_sub: profile['sub'],
       purchase_id: editingPurchase.id,
