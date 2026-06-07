@@ -1004,13 +1004,14 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <option value="Emergency Fund">Emergency Fund</option>
         <option value="Cosplay">Cosplay</option>
     </select>
-    {/*}
+    <br></br>
       <label>Amount:</label>
       <input 
         type="number" 
         value={editingPurchase.price_number} 
         onChange={(e) => setEditingPurchase({...editingPurchase, price_number: e.target.value})} 
       />
+      {/*
       <label>Item Name:</label>
       <input 
         type="text" 
