@@ -334,6 +334,7 @@ function Dashboard ({auth, SignOut}) {
           'Content-Type': 'application/json'
         }
       });
+      console.log(response)
       if (response.ok) {
         setPurchases(prev => prev.map(p => {
           if (p.id === editingPurchase.id) {
