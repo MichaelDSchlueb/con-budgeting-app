@@ -299,7 +299,6 @@ function Dashboard ({auth, SignOut}) {
 
   const handleStartEdit = (purchase) => {
     setEditingPurchase(purchase);
-    console.log(editingPurchase.item_name);
   };
 
   const handleFieldChange = (field, value) => {
@@ -334,7 +333,7 @@ function Dashboard ({auth, SignOut}) {
         }
       });
       if (response.ok) {
-        setPutchases(prev => prev.map(p => {
+        setPurchases(prev => prev.map(p => {
           if (p.id === editingPurchase.id) {
             return {...p, ...updatableFields};
           }
@@ -988,6 +987,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 {editingPurchase &&(
   <div className="edit-modal-backdrop">
     <div className="edit-modal">
+      {console.log("Editing purchase:", editingPurchase)}
       <h3>Editing {editingPurchase.item_name}</h3>
   {/*
       <label>Category:</label>
