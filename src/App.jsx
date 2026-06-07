@@ -988,43 +988,43 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 {editingPurchase &&(
   <div className="edit-modal-backdrop">
     <div className="edit-modal">
-      <h3>Editing {editingPurchase.name}</h3>
+      <h3>Editing {editingPurchase.item_name}</h3>
   {/*
-    <label>Category:</label>
-    <select
-      value={editingPurchase.category || "Uncategorized"}
-      onChange={(e) => setEditingPurchase({...editingPurchase, category: e.target.value})}
-    >
-      <option value="Uncategorized">Uncategorized</option>
-      <option value="Food">Food</option>
-      <option value="Hotel">Hotel</option>
-      <option value="Art/Vend">Art/Vend</option>
-      <option value="Guests">Guests</option>
-      <option value="Convention">Convention</option>
-      <option value="Transportation">Transportation</option>
-      <option value="Emergency Fund">Emergency Fund</option>
-      <option value="Cosplay">Cosplay</option>
+      <label>Category:</label>
+      <select
+        value={editingPurchase.category || "Uncategorized"}
+        onChange={(e) => setEditingPurchase({...editingPurchase, category: e.target.value})}
+      >
+        <option value="Uncategorized">Uncategorized</option>
+        <option value="Food">Food</option>
+        <option value="Hotel">Hotel</option>
+        <option value="Art/Vend">Art/Vend</option>
+        <option value="Guests">Guests</option>
+        <option value="Convention">Convention</option>
+        <option value="Transportation">Transportation</option>
+        <option value="Emergency Fund">Emergency Fund</option>
+        <option value="Cosplay">Cosplay</option>
     </select>
 
-    <label>Amount:</label>
-    <input 
-      type="number" 
-      value={editingPurchase.price_number} 
-      onChange={(e) => setEditingPurchase({...editingPurchase, price_number: e.target.value})} 
-    />
-    <label>Item Name:</label>
-    <input 
-      type="text" 
-      value={editingPurchase.item_name} 
-      onChange={(e) => setEditingPurchase({...editingPurchase, item_name: e.target.value})} 
-    />
+      <label>Amount:</label>
+      <input 
+        type="number" 
+        value={editingPurchase.price_number} 
+        onChange={(e) => setEditingPurchase({...editingPurchase, price_number: e.target.value})} 
+      />
+      <label>Item Name:</label>
+      <input 
+        type="text" 
+        value={editingPurchase.item_name} 
+        onChange={(e) => setEditingPurchase({...editingPurchase, item_name: e.target.value})} 
+      />
 
-    <label>Vendor:</label>
-    <input 
-      type="text" 
-      value={editingPurchase.vendor} 
-      onChange={(e) => setEditingPurchase({...editingPurchase, vendor: e.target.value})} 
-    />
+      <label>Vendor:</label>
+      <input 
+        type="text" 
+        value={editingPurchase.vendor} 
+        onChange={(e) => setEditingPurchase({...editingPurchase, vendor: e.target.value})} 
+      />
     */}
       <br></br>
       <button type="button" onClick={() => setEditingPurchase(null)}>Cancel</button>
