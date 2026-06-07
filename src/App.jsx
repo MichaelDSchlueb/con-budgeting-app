@@ -989,7 +989,6 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
     <div className="edit-modal">
       {console.log("Editing purchase:", editingPurchase)}
       <h3>Editing {editingPurchase.item_name}</h3>
-  {/*
       <label>Category:</label>
       <select
         value={editingPurchase.category || "Uncategorized"}
@@ -1005,7 +1004,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         <option value="Emergency Fund">Emergency Fund</option>
         <option value="Cosplay">Cosplay</option>
     </select>
-
+    {/*}
       <label>Amount:</label>
       <input 
         type="number" 
