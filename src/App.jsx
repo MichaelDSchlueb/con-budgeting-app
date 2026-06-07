@@ -299,7 +299,7 @@ function Dashboard ({auth, SignOut}) {
 
   const handleStartEdit = (purchase) => {
     setEditingPurchase(purchase);
-    console.log(editingPurchase);
+    console.log(editingPurchase.item_name);
   };
 
   const handleFieldChange = (field, value) => {
