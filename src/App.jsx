@@ -1011,21 +1011,20 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         value={editingPurchase.price_number} 
         onChange={(e) => setEditingPurchase({...editingPurchase, price_number: e.target.value})} 
       />
-      {/*
+      <br></br>
       <label>Item Name:</label>
       <input 
         type="text" 
         value={editingPurchase.item_name} 
         onChange={(e) => setEditingPurchase({...editingPurchase, item_name: e.target.value})} 
       />
-
+      <br></br>
       <label>Vendor:</label>
       <input 
         type="text" 
         value={editingPurchase.vendor} 
         onChange={(e) => setEditingPurchase({...editingPurchase, vendor: e.target.value})} 
       />
-    */}
       <br></br>
       <button type="button" onClick={() => setEditingPurchase(null)}>Cancel</button>
     </div>
