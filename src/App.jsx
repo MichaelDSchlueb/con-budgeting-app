@@ -326,7 +326,6 @@ function Dashboard ({auth, SignOut}) {
 
     console.log("Attempting to update purchase with payload:", payload);
 
-    /*
     try {
       const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/purchases', {
         method: 'PATCH',
@@ -347,7 +346,7 @@ function Dashboard ({auth, SignOut}) {
       }
     } catch (err) {
       console.error("Failed to update purchase:", err);
-    }*/
+    }
   }
 
   const logManualExpense = async (metadata) => { 
