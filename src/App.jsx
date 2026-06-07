@@ -1022,6 +1022,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       />
       <br></br>
       <label>Vendor:</label>
+      {console.log("Current vendor value:", editingPurchase.vendor)}
       <input 
         type="text" 
         value={editingPurchase.vendor} 
