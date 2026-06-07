@@ -298,8 +298,8 @@ function Dashboard ({auth, SignOut}) {
   const [editingPurchase, setEditingPurchase] = useState(null);
 
   const handleStartEdit = (purchase) => {
-    console.log("Starting edit for purchase:", purchase);
     setEditingPurchase({purchase});
+    console.log(editingPurchase);
   };
 
   const handleFieldChange = (field, value) => {
