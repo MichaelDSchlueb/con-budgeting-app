@@ -988,7 +988,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
 {editingPurchase &&(
   <div className="edit-modal-backdrop">
     <h3>Editing {editingPurchase.name}</h3>
-  
+  {/*
     <label>Category:</label>
     <select
       value={editingPurchase.category || "Uncategorized"}
@@ -1024,7 +1024,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       value={editingPurchase.vendor} 
       onChange={(e) => setEditingPurchase({...editingPurchase, vendor: e.target.value})} 
     />
-
+    */}
     <button type="button" onClick={() => setEditingPurchase(null)}>Cancel</button>
   </div>
 )}
