@@ -343,6 +343,8 @@ function Dashboard ({auth, SignOut}) {
         }));
 
         setEditingPurchase(null);
+      } else if (response.status === 400) {
+        window.alert("Invalid input. Please check your changes and try again.");
       }
     } catch (err) {
       console.error("Failed to update purchase:", err);
