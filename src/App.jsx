@@ -849,18 +849,48 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
             {key}
           </div>
           <div style={{ padding: 0 }}>
-          {items.map(p => (
-            <div key={p.id} style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              padding: '8px 0', 
-              borderBottom: '1px solid #30363d' 
-            }}>
-              <span onClick={() => handleStartEdit(p)}>✏️</span>
-              <span style={{ fontWeight: '500' }}>{p.item_name}</span>
-              <span style={{ color: '#58a6ff'}}>${p.price_number}</span>
-            </div>
-          ))}
+          {items.map(p => {
+
+            // Check if THIS specific item is the one being edited
+            const isEditingThis = editingItem && editingItem.id === p.id;
+
+            return (
+              <div key={p.id} style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                padding: '8px 0', 
+                borderBottom: '1px solid #30363d',
+                alignItems: 'center'
+              }}>
+                {isEditingThis ? (
+                  // Inline Editing View for this row only
+                  <>
+                    <input 
+                      type="text" 
+                      value={editingItem.item_name} 
+                      onChange={(e) => setEditingItem({...editingItem, item_name: e.target.value})}
+                      style={{ background: '#21262d', color: '#c9d1d9', border: '1px solid #30363d', padding: '4px' }}
+                    />
+                    <input 
+                      type="number" 
+                      value={editingItem.price_number} 
+                      onChange={(e) => setEditingItem({...editingItem, price_number: e.target.value})}
+                      style={{ width: '80px', background: '#21262d', color: '#c9d1d9', border: '1px solid #30363d', padding: '4px' }}
+                    />
+                    <button onClick={handleUpdateSubmit}>Save</button>
+                    <button onClick={() => setEditingItem(null)}>Cancel</button>
+                  </>
+                ) : (
+                  // Standard View
+                  <>
+                    <span onClick={() => handleStartEdit(p)} style={{ cursor: 'pointer' }}>✏️</span>
+                    <span style={{ fontWeight: '500' }}>{p.item_name}</span>
+                    <span style={{ color: '#58a6ff'}}>${p.price_number}</span>
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     ))}
