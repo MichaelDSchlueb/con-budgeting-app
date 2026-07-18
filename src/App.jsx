@@ -852,7 +852,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
           {items.map(p => {
 
             // Check if THIS specific item is the one being edited
-            const isEditingThis = editingItem && editingItem.id === p.id;
+            const isEditingThis = editingPurchase && editingPurchase.id === p.id;
 
             return (
               <div key={p.id} style={{ 
@@ -865,20 +865,20 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
                 {isEditingThis ? (
                   // Inline Editing View for this row only
                   <>
-                    {/* <input 
+                    <input 
                       type="text" 
-                      value={editingItem.item_name} 
-                      onChange={(e) => setEditingItem({...editingItem, item_name: e.target.value})}
+                      value={editingPurchase.item_name} 
+                      onChange={(e) => setEditingPurchase({...editingPurchase, item_name: e.target.value})}
                       style={{ background: '#21262d', color: '#c9d1d9', border: '1px solid #30363d', padding: '4px' }}
-                    /> */}
+                    />
                     <input 
                       type="number" 
-                      value={editingItem.price_number} 
-                      onChange={(e) => setEditingItem({...editingItem, price_number: e.target.value})}
+                      value={editingPurchase.price_number} 
+                      onChange={(e) => setEditingPurchase({...editingPurchase, price_number: e.target.value})}
                       style={{ width: '80px', background: '#21262d', color: '#c9d1d9', border: '1px solid #30363d', padding: '4px' }}
                     />
                     <button onClick={handleUpdateSubmit}>Save</button>
-                    <button onClick={() => setEditingItem(null)}>Cancel</button>
+                    <button onClick={() => setEditingPurchase(null)}>Cancel</button>
                   </>
                 ) : (
                   // Standard View
