@@ -865,12 +865,12 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
                 {isEditingThis ? (
                   // Inline Editing View for this row only
                   <>
-                    <input 
+                    {/* <input 
                       type="text" 
                       value={editingItem.item_name} 
                       onChange={(e) => setEditingItem({...editingItem, item_name: e.target.value})}
                       style={{ background: '#21262d', color: '#c9d1d9', border: '1px solid #30363d', padding: '4px' }}
-                    />
+                    /> */}
                     <input 
                       type="number" 
                       value={editingItem.price_number} 
