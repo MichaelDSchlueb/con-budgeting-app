@@ -878,7 +878,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
                       onChange={(e) => setEditingPurchase({...editingPurchase, price_number: e.target.value})}
                       style={{ width: '80px', background: '#21262d', color: '#c9d1d9', border: '1px solid #30363d', padding: '4px' }}
                     />
-                    <button onClick={handleUpdateSubmit}>Save</button>
+                    <button onClick={handleSaveUpdate}>Save</button>
                     <button onClick={() => setEditingPurchase(null)}>Cancel</button>
                   </>
                 ) : (
