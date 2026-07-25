@@ -314,7 +314,7 @@ function Dashboard ({auth, SignOut}) {
 
     const updatableFields = {
       category: editingPurchase.category || null,
-      price_number: editingPurchase.price_number ? parseFloat(editingPurchase.price_number) : null,
+      price_number: editingPurchase.price_number,
       item_name: editingPurchase.item_name || null,
       vendor: editingPurchase.vendor || null
     };
