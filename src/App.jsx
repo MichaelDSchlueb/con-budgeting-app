@@ -337,10 +337,10 @@ function Dashboard ({auth, SignOut}) {
       console.log(response)
       if (response.ok) {
         setPurchases(prev => 
-          prev.map(p =>
-          p.id === editingPurchase.id ? { ...p, ...updatableFields } : p
-        )
-      );
+          prev.map((p) =>
+            p.id === editingPurchase.id ? { ...p, ...updatableFields } : p
+          )
+        );
 
         setEditingPurchase(null);
       } else if (response.status === 400) {
