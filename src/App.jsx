@@ -338,9 +338,12 @@ function Dashboard ({auth, SignOut}) {
       if (response.ok) {
         setPurchases(prev => 
           prev.map((p) => {
-            const currentId = p.id || p.purchase_id;
-            const targetId = editingPurchase.id || editingPurchase.purchase_id;
-            return currentId === targetId ? { ...p, ...updatableFields } : p
+            const currentId = p.id ?? p.purchase_id;
+            const targetId = editingPurchase.id ?? editingPurchase.purchase_id;
+            if (currentId && currentId === targetId) {
+              return { ...p, ...updatableFields };
+            }
+            return p;
             //p.id === editingPurchase.id ? { ...p, ...updatableFields } : p
           })
         );
