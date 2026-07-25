@@ -310,6 +310,7 @@ function Dashboard ({auth, SignOut}) {
 
   const handleSaveUpdate = async () => {
     if (!editingPurchase) return;
+    console.log("Editing purchase:", editingPurchase);
 
     const updatableFields = {
       category: editingPurchase.category || null,
