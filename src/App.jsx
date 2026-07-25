@@ -335,7 +335,6 @@ function Dashboard ({auth, SignOut}) {
       });
       console.log(response)
       if (response.ok) {
-        console.log("HERE")
         setPurchases(prev => 
           prev.map(p =>
           p.id === editingPurchase.id ? { ...p, ...updatableFields } : p
@@ -1061,7 +1060,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
         onChange={(e) => setEditingPurchase({...editingPurchase, vendor: e.target.value})} 
       />
       <br></br>
-      <button type="button" onClick={handleSaveUpdate}>Save</button>
+      <button type="button" onClick={handleUpdateSubmit}>Save</button>
       <button type="button" onClick={() => setEditingPurchase(null)}>Cancel</button>
     </div>
   </div>
