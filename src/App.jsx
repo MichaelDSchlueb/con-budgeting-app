@@ -335,6 +335,7 @@ function Dashboard ({auth, SignOut}) {
       });
       console.log(response)
       if (response.ok) {
+        console.log("HERE")
         setPurchases(prev => 
           prev.map(p =>
           p.id === editingPurchase.id ? { ...p, ...updatableFields } : p
