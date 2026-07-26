@@ -32,11 +32,9 @@ const amplifyconfig = {
           scopes: ['openid', 'email', 'profile', 'aws.cognito.signin.user.admin'],
           redirectSignIn: [
             `${currentOrigin}/`,
-            'https://main.dymkwrcw8goz2.amplifyapp.com/'
           ],
           redirectSignOut: [
             `${currentOrigin}/`,
-            'https://main.dymkwrcw8goz2.amplifyapp.com/'
           ],
           responseType: 'code'
         }
