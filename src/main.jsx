@@ -18,7 +18,7 @@ const cognitoAuthConfig = {
   scope: "email openid phone",
 };
 
-const currentOrigin = window.location.origin;
+const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
 
 // 2. Use the EXACT same name in the configure block
 const amplifyconfig = {
