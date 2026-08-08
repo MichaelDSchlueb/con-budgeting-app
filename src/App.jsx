@@ -272,7 +272,7 @@ function LandingPage() {
     <div>
       <h1>Welcome to ConGreen!</h1>
       <p>Please sign in to view your dashboard.</p>
-      <button onClick={() => auth.signinRedirect()}>Sign in</button>
+      <button onClick={() => auth.signinRedirect({ redirect_uri: `${window.location.origin}/` })}>Sign in</button>
     </div>
   );
 }
