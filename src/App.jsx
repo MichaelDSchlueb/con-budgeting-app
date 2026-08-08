@@ -1015,6 +1015,9 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   }}>
     ✏️ Manual Entry
   </button>
+  <button type="button" id="send-button" className="action-btn send-btn" onClick={handleAutoSync}>
+    Archive Data 
+  </button>
 </div>
 
 {editingPurchase &&(
