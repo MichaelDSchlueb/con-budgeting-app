@@ -7,6 +7,7 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthProvider } from "react-oidc-context";
 import { CookieStorage } from 'aws-amplify/utils';
+import { cognitoUserPoosTokenProvider } from 'aws-amplify/auth/cognito';
 
 // main.jsx
 
@@ -17,6 +18,13 @@ const cognitoAuthConfig = {
   response_type: "code",
   scope: "email openid phone",
 };
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(
+  new CookieStorage({
+    secure: true,
+    sameSite: 'lax'
+  })
+);
 
 const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
 
