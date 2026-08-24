@@ -269,11 +269,16 @@ function LandingPage() {
   }
 
   return (
-    <div>
-      <h1>Welcome to ConGreen!</h1>
-      <p>Please sign in to view your dashboard.</p>
-      <button onClick={() => auth.signinRedirect({ redirect_uri: `${window.location.origin}/` })}>Sign in</button>
+    <body>
+      <header>
+        <h1>Website Logo & Title</h1>
+        <nav><button onClick={() => auth.signinRedirect({ redirect_uri: `${window.location.origin}/` })}>Sign in</button></nav>
+      </header>
+      <div>
+      <h1>You're all Good to Geek!</h1>
+      <p>ConGreen is your platform for managing your finances without giving up your fandoms.</p>
     </div>
+    </body>
   );
 }
 
@@ -296,6 +301,8 @@ function Dashboard ({auth, SignOut}) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const[showCategoryModal, setShowCategoryModal] = useState(false);
   const [editingPurchase, setEditingPurchase] = useState(null);
+
+  //const handleArchive 
 
   const handleStartEdit = (purchase) => {
     setEditingPurchase(purchase);
@@ -1015,7 +1022,9 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   }}>
     ✏️ Manual Entry
   </button>
-  <button type="button" id="send-button" className="action-btn send-btn" onClick={handleAutoSync}>
+  <button type="button" id="send-button" className="action-btn send-btn" onClick={() => {
+    handleArchive();
+  }}>
     Archive Data 
   </button>
 </div>
