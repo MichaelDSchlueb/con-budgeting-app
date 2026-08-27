@@ -7,7 +7,7 @@ Fan conventions have become popular throughout the world due to the rising influ
 As someone who attends conventions such as MetroCon and Holiday Matsuri, I understand and enjoy the sense of escape that these events provide - from the sense of community and belonging to the wonders of what makes fandoms so incredible.
 
 
-## 2. System Requirements
+## 2. System Requirement
 
 ### Requirements Gathering
 
