@@ -278,6 +278,10 @@ function LandingPage() {
       <h1>You're all Good to Geek!</h1>
       <p>ConGreen is your platform for managing your finances without giving up your fandoms.</p>
     </div>
+    <div>
+      <h1>Meet the Team of BluMirai Solutions!</h1>
+    </div>
+    <footer>A BluMirai Solution</footer>
     </body>
   );
 }

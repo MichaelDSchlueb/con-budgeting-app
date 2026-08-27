@@ -1,16 +1,26 @@
-# React + Vite
+# ConGreen: You're all Good To Geek!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Problem Statement
 
-Currently, two official plugins are available:
+Fan conventions have become popular throughout the world due to the rising influences of geek cultural staples from sci-fi to anime and comics to video games. People attend these conventions to showcase their love of fandoms, meet with fellow enthusiasts, interact with their favorite media guests, and acquire cool merchandise from vendors and artists.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+As someone who attends conventions such as MetroCon and Holiday Matsuri, I understand and enjoy the sense of escape that these events provide - from the sense of community and belonging to the wonders of what makes fandoms so incredible.
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 2. System Requirements
 
-## Expanding the ESLint configuration
+### Requirements Gathering
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Functional Requirements
+
+### Non-Functional Requirements
+
+## 3. Architectural Design & AWS Component Mapping
+
+## 4. Logo Design and Branding
+
+## 5. MomoCon 2026 MVP
+
+## 6. Looking Forward
+
+## References
