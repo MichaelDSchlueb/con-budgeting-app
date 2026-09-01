@@ -7,8 +7,10 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { AuthProvider } from "react-oidc-context";
 import { CookieStorage } from 'aws-amplify/utils';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 
 // main.jsx
+
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_5KrMfc4NY",
   client_id: "5d32h4mt57n9ljti8d8fhkcflt",
@@ -16,6 +18,15 @@ const cognitoAuthConfig = {
   response_type: "code",
   scope: "email openid phone",
 };
+
+cognitoUserPoolsTokenProvider.setKeyValueStorage(
+  new CookieStorage({
+    secure: true,
+    sameSite: 'lax'
+  })
+);
+
+const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
 
 // 2. Use the EXACT same name in the configure block
 const amplifyconfig = {
@@ -27,8 +38,12 @@ const amplifyconfig = {
         oauth: {
           domain: 'your-cognito-domain.auth.us-east-2.amazoncognito.com',
           scopes: ['openid', 'email', 'profile', 'aws.cognito.signin.user.admin'],
-          redirectSignIn: ['https://main.dymkwrcw8goz2.amplifyapp.com/'],
-          redirectSignOut: ['https://main.dymkwrcw8goz2.amplifyapp.com/'],
+          redirectSignIn: [
+            `${currentOrigin}/`,
+          ],
+          redirectSignOut: [
+            `${currentOrigin}/`,
+          ],
           responseType: 'code'
         }
       }
