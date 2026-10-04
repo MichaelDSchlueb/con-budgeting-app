@@ -307,6 +307,13 @@ function Dashboard ({auth, SignOut}) {
   const [editingPurchase, setEditingPurchase] = useState(null);
 
   //const handleArchive 
+    // is there a current con name?
+      // get current con name and send it to the API
+        // success?
+        // null current con name
+      // failure means to return error message to user
+    // send a message to user stating that the current con has been archived and they can start a new one
+
 
   const handleStartEdit = (purchase) => {
     setEditingPurchase(purchase);
@@ -1021,6 +1028,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       style={{ display: 'none' }} 
     />
   </label>
+  {/*
   <button type="button" id="manual-button" className="action-btn manual-btn" onClick={() => {
     handleReceiptSubmit(null); // Trigger manual entry flow without a file
   }}>
@@ -1031,6 +1039,7 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   }}>
     Archive Data 
   </button>
+  */}
 </div>
 
 {editingPurchase &&(

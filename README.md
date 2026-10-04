@@ -46,6 +46,8 @@ I engineered a Google Script that calls an AWS Lambda function to directly send 
 
 ## 5. MomoCon 2026 MVP
 
+The MomoCon 2026 MVP prioritized receipt ingestion
+
 ## 6. Looking Forward
 
 ## References
