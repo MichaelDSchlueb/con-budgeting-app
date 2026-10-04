@@ -1028,7 +1028,6 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
       style={{ display: 'none' }} 
     />
   </label>
-  {/*
   <button type="button" id="manual-button" className="action-btn manual-btn" onClick={() => {
     handleReceiptSubmit(null); // Trigger manual entry flow without a file
   }}>
@@ -1039,7 +1038,6 @@ const PurchaseList = ({ groupedData, groupBy, setGroupBy }) => (
   }}>
     Archive Data 
   </button>
-  */}
 </div>
 
 {editingPurchase &&(
