@@ -306,14 +306,30 @@ function Dashboard ({auth, SignOut}) {
   const[showCategoryModal, setShowCategoryModal] = useState(false);
   const [editingPurchase, setEditingPurchase] = useState(null);
 
-  //const handleArchive 
+  const handleArchive = async () => {
     // is there a current con name?
+    if (nextCon) {
+      console.log("Archiving current con:", nextCon, "for user:", profile['sub']);
       // get current con name and send it to the API
-        // success?
-        // null current con name
+      const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/archive', {
+        method: 'POST',
+        body: JSON.stringify({
+          user_sub: profile['sub'],
+          con_name: nextCon
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // success?
+      if (response.ok) {
+        setNextCon("");
+      }
+      // null current con name
       // failure means to return error message to user
-    // send a message to user stating that the current con has been archived and they can start a new one
-
+      // send a message to user stating that the current con has been archived and they can start a new one
+    }
+  }
 
   const handleStartEdit = (purchase) => {
     setEditingPurchase(purchase);
