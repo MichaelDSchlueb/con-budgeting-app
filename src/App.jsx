@@ -309,7 +309,6 @@ function Dashboard ({auth, SignOut}) {
   const handleArchive = async () => {
     // is there a current con name?
     if (nextCon) {
-      console.log("Archiving current con:", nextCon, "for user:", profile['sub']);
       // get current con name and send it to the API
       const response = await fetch('https://p1hs04nmxa.execute-api.us-east-2.amazonaws.com/cg-prod/archive', {
         method: 'POST',
@@ -322,6 +321,7 @@ function Dashboard ({auth, SignOut}) {
         }
       });
       // success?
+      console.log("Archive response:", response);
       if (response.ok) {
         setNextCon("");
       }

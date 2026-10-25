@@ -48,6 +48,10 @@ I engineered a Google Script that calls an AWS Lambda function to directly send 
 
 The MomoCon 2026 MVP prioritized receipt ingestion
 
+## Challenges Faced
+
+- While developing the archival feature in Phase 1c, the direct link from API Gateway to failed because of a type mismatch, requiring a prompt diagnostic inspection using API Log Groups. It was discovered that a type mismatch between predefined API scripts and raw binary data was preventing any transformations from occurring; therefore, a further system decoupling using an Lambda function to transform data from binary to plaintext and escort it to the SQS queue was necessistated.
+
 ## 6. Looking Forward
 
 ## References
